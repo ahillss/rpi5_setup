@@ -78,7 +78,7 @@ echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<channel name="thunar" version=
 ```bash
 mkdir -p $HOME/.config/vlc
 
-	echo -e "[qt4]\nqt-recentplay=0\nqt-privacy-ask=0\n\n[core]\nvideo-title-show=0\nplay-and-exit=1\none-instance-when-started-from-file=0\nsnapshot-path=$HOME/Pictures\nsnapshot-prefix=$N_[$T]_\nsnapshot-sequential=1\nkey-vol-up=Ctrl+Up\nkey-vol-down=Ctrl+Down\nkey-vol-mute=m\nkey-stop=\nkey-snapshot=s\nstats=0\nstereo-mode=1" > $HOME/.config/vlc/vlcrc
+echo -e "[qt4]\nqt-recentplay=0\nqt-privacy-ask=0\n\n[core]\nvideo-title-show=0\nplay-and-exit=1\none-instance-when-started-from-file=0\nsnapshot-path=$HOME/Pictures\nsnapshot-prefix=$N_[$T]_\nsnapshot-sequential=1\nkey-vol-up=Ctrl+Up\nkey-vol-down=Ctrl+Down\nkey-vol-mute=m\nkey-stop=\nkey-snapshot=s\nstats=0\nstereo-mode=1" > $HOME/.config/vlc/vlcrc
 
 echo -e '[MainWindow]\nstatus-bar-visible=true' > $HOME/.config/vlc/vlc-qt-interface.conf
 ```
@@ -215,14 +215,14 @@ sudo apt install moonlight-qt
 ## move some caches to tmp
 
 ```bash
-	mkdir -p $HOME/.local/share $HOME/.cache
-	
-	echo -e "\n#" >> /etc/fstab
-	
-	echo "/tmp $HOME/.local/share/gvfs-metadata none defaults,bind 0 0" >> /etc/fstab	
-	echo "/tmp $HOME/.cache/thumbnails none defaults,bind 0 0" >> /etc/fstab
-	echo "/tmp $HOME/.cache/vlc none defaults,bind 0 0" >> /etc/fstab
-	
-	echo "#/tmp /$HOME/.cache/chromium none defaults,bind 0 0" >> /etc/fstab
-	echo "#/tmp /$HOME/.cache/mozilla none defaults,bind 0 0" >> /etc/fstab
+mkdir -p $HOME/.local/share $HOME/.cache
+
+echo -e "\n#" >> /etc/fstab
+
+echo "/tmp $HOME/.local/share/gvfs-metadata none defaults,bind 0 0" >> /etc/fstab	
+echo "/tmp $HOME/.cache/thumbnails none defaults,bind 0 0" >> /etc/fstab
+echo "/tmp $HOME/.cache/vlc none defaults,bind 0 0" >> /etc/fstab
+
+echo "#/tmp /$HOME/.cache/chromium none defaults,bind 0 0" >> /etc/fstab
+echo "#/tmp /$HOME/.cache/mozilla none defaults,bind 0 0" >> /etc/fstab
 ```
