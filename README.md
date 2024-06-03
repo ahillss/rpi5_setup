@@ -100,6 +100,9 @@ sudo sed -i 's/\(autologin-session=\)\(.*\)/#\1\2\n\1i3/g' /etc/lightdm/lightdm.
 ```bash
 mkdir -p $HOME/.config/i3
 cp -f /etc/i3/config $HOME/.config/i3/
+
+sed -i 's/\(^exec --no-startup-id.*\)/#\1/g' $HOME/.config/i3/config
+
 sed -i 's/\(bindsym Mod1+d exec\) \(dmenu_run\)/\1 --no-startup-id \2/g' $HOME/.config/i3/config
 sed -i 's/\(exec i3-config-wizard\)/#\1/g' $HOME/.config/i3/config
 sed -i 's/# \(bindsym Mod1+\)\(d exec --no-startup-id i3-dmenu-desktop\)/\1Shift+\2/g' $HOME/.config/i3/config
@@ -116,9 +119,6 @@ echo '#for_window [class="Chromium"] floating disable' >> $HOME/.config/i3/confi
 sed -i '/^# kill focused window/abindsym Mod1+Shift+x exec xdotool getwindowfocus windowkill' $HOME/.config/i3/config	
 echo 'bindsym Mod1+Control+Shift+s exec systemctl suspend' >> $HOME/.config/i3/config
 echo 'bindsym Mod1+Control+Shift+h exec systemctl hibernate' >> $HOME/.config/i3/config
-
-sed -i 's/\(^exec --no-startup-id.*\)/#\1/g' $HOME/.config/i3/config
-
 ```
 
 ## i3 blocks
