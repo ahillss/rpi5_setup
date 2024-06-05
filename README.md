@@ -1,4 +1,4 @@
-# rpi5 setup
+bm# rpi5 setup
 
 ## misc
 
@@ -9,28 +9,52 @@ sudo rpi-eeprom-update
 
 ## franebuffer 32 bit depth
 
-In /boot/firmware/cmdline.txt, add (for first plug):
+In `/boot/firmware/cmdline.txt`, add (for first plug): ~~video=HDMI-A-1:-32~~ `video=HDMI-A-1:1920x1080M-32@60` to the end.
 
-~~video=HDMI-A-1:-32~~
+##disable hdmi audio
 
-```
-video=HDMI-A-1:1920x1080M-32@60
-```
+In `/boot/firmware/config.txt`, add `noaudio` to end of `dtoverlay=vc4-kms-v3d`: `dtoverlay=vc4-kms-v3d,noaudio`
 
-to the end.
  
+## disable wifi, bluetooth
+
+add to `/boot/firmware/config.txt`
+
+```
+dtoverlay=disable-wifi
+dtoverlay=disable-bt
+```
+
+## manually control fan
+```bash
+#disable
+
+pinctrl FAN_PWM op dh
+
+#full
+pinctrl FAN_PWM op dl
+
+#auto
+pinctrl FAN_PWM a0
+```
+
+## set speeds for temps
+```
+#todo
+```
+
 ## installs
 
 ```bash
 sudo apt update
 sudo apt full-upgrade
-sudo apt install thunar scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3 i3blocks unclutter
+sudo apt install thunar scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter
 ```
 
 ## autostart
 
 ```bash
-echo "\n[autostart]" >> $HOME/.config/wayfire.ini
+echo -e "\n[autostart]" >> $HOME/.config/wayfire.ini
 echo "xbindkeys=xbindkeys -p" >> $HOME/.config/wayfire.ini
 echo "solaar=solaar -w hide" >> $HOME/.config/wayfire.ini
 echo "unclutter=unclutter -idle 2 -jitter 2 -root" >> $HOME/.config/wayfire.ini
@@ -110,7 +134,9 @@ sed -i 's/\(set \$mod\) Mod4/\1 Mod1/g' $HOME/.config/i3/config
 sed -i '/^bar {$/ a\\t#mode hide\n\t#hidden_state hide\n\tmodifier Mod1' $HOME/.config/i3/config
 sed -i '/^bar {$/ a\\t#tray_output primary' $HOME/.config/i3/config
 #sed -i 's/^\(font pango:\).*/\1Ubuntu Mono 14/g' $HOME/.config/i3/config
-#sed -i '/^font pango.*/a#font pango:Ubuntu Mono 14' $HOME/.config/i3/config	
+
+sed -i '/^font pango.*/a#font pango:Ubuntu Mono 18' $HOME/.config/i3/config
+
 echo 'bindsym Mod1+Shift+h bar mode toggle' >> $HOME/.config/i3/config
 echo -e '\n#\nworkspace_layout tabbed\ndefault_orientation vertical' >> $HOME/.config/i3/config
 echo 'for_window [window_role="pop-up"] floating enable' >> $HOME/.config/i3/config
@@ -136,6 +162,8 @@ echo -e '\n#[memory_used]\n#color=#FFDDCC\n#command=awk '"'"'/MemTotal|MemAvaila
 echo -e '\n#[swap_free]\n#command=awk '"'"'/SwapTotal|SwapFree/ {print $2}'"'"' /proc/meminfo | paste -sd'"'"' '"'"' | awk '"'"'{printf "<span color=\\"%s\\">%d\\xcb\\x96</span>\\n",$1=="0"?"#555555":"#FFDDCC",$2/1000}'"'"'\n#interval=2\n#markup=pango' >> $HOME/.config/i3blocks/config
 echo -e '\n[swap_used]\ncommand=awk '"'"'/SwapTotal|SwapFree/ {print $2}'"'"' /proc/meminfo | paste -sd'"'"' '"'"' | awk '"'"'{printf "<span color=\\"%s\\">%d\\xcb\\x97</span>\\n",$1=="0"?"#555555":"#FFDDCC",($1-$2)/1000}'"'"'\ninterval=2\nmarkup=pango' >> $HOME/.config/i3blocks/config
 echo -e '\n[temp]\ncolor=#85C1E9\ncommand=cat /sys/class/thermal/thermal_zone*/temp | awk '"'"'$1 {printf "%.0f\\xc2\\xb0 ",$1/1000}'"'"'|awk '"'"'$1=$1'"'"'\ninterval=2' >> $HOME/.config/i3blocks/config
+echo -e '\n[fan]\ncolor=#85E9C1\ncommand=cat /sys/devices/platform/cooling_fan/hwmon/*/fan1_input | xargs\ninterval=2' >> $HOME/.config/i3blocks/config
+
 echo -e '\n[time]\ncommand=date "+%a %d %b, %I:%M %p"\ninterval=5' >> $HOME/.config/i3blocks/config
 echo -e '\n#[battery]\n#color=#58D68D\n#command=cat /sys/class/power_supply/BAT1/status /sys/class/power_supply/BAT1/capacity | tr "\\n" " " | awk '"'"'$1 $2 {printf "<span color=\\"%s\\">\\xe2\\x9a\\xa1</span>%s%%", $1=="Charging"?"yellow":"light grey",$2}'"'"'\n#interval=2\n#markup=pango' >> $HOME/.config/i3blocks/config
 echo -e '\n[volume]\ncommand=amixer -c 0 -M -D pulse get Master | sed "s/[][%]//g" | awk '"'"'/Front Left:.+/ {printf "<span color=\\"%s\\">%s\\xE2\\x99\\xAA</span>\\n",$6=="off"?"#333333":"#FFFFFF",$5}'"'"'\ninterval=5\nmarkup=pango' >> $HOME/.config/i3blocks/config
@@ -160,15 +188,16 @@ echo -e 'function OnUpdateUI() props["CurrentPos"]=editor.CurrentPos end' > $HOM
 ```
 
 ```bash
-#echo -e 'selection.back=#CCBDFF\nselection.alpha=50\nselection.layer=1\n' >> $HOME/.SciTEUser.properties
-#echo -e 'caret.line.back=#CCDDFF\ncaret.fore=#FFFFFF\n' >> $HOME/.SciTEUser.properties
-#echo -e 'highlight.current.word=1\nhighlight.current.word.indicator=style:straightbox,colour:#FFBBDD,fillalpha:255,under\nstyle.*.34=back:#51DAEA\n' >> $HOME/.SciTEUser.properties
+echo -e 'selection.back=#CCBDFF\nselection.alpha=50\nselection.layer=1\n' >> $HOME/.SciTEUser.properties
+echo -e 'caret.line.back=#CCDDFF\ncaret.fore=#FFFFFF\n' >> $HOME/.SciTEUser.properties
+echo -e 'highlight.current.word=1\nhighlight.current.word.indicator=style:straightbox,colour:#FFBBDD,fillalpha:255,under\nstyle.*.34=back:#51DAEA\n' >> $HOME/.SciTEUser.properties
 
-echo -e 'selection.back=#227733\nselection.alpha=50\nselection.layer=1\n' >> $HOME/.SciTEUser.properties
-echo -e 'caret.line.back=#444444\n' >> $HOME/.SciTEUser.properties
-echo -e 'highlight.current.word=1\nhighlight.current.word.indicator=style:straightbox,colour:#777777,fillalpha:255,under\nstyle.*.34=back:#22AAFF\n' >> $HOME/.SciTEUser.properties
-echo -e 'style.*.32=$(font.base),back:#101010,fore:#BBBBDD\nstyle.*.33=$(font.base),back:#101010\n' >> $HOME/.SciTEUser.properties
-echo -e 'font.base=font:Verdana,size:16\nfont.small=font:Verdana,size:14\nfont.comment=font:Georgia,size:16\n' >> $HOME/.SciTEUser.properties
+
+#echo -e 'selection.back=#227733\nselection.alpha=50\nselection.layer=1\n' >> $HOME/.SciTEUser.properties
+#echo -e 'caret.line.back=#444444\n' >> $HOME/.SciTEUser.properties
+#echo -e 'highlight.current.word=1\nhighlight.current.word.indicator=style:straightbox,colour:#777777,fillalpha:255,under\nstyle.*.34=back:#22AAFF\n' >> $HOME/.SciTEUser.properties
+#echo -e 'style.*.32=$(font.base),back:#101010,fore:#BBBBDD\nstyle.*.33=$(font.base),back:#101010\n' >> $HOME/.SciTEUser.properties
+#echo -e 'font.base=font:Verdana,size:16\nfont.small=font:Verdana,size:14\nfont.comment=font:Georgia,size:16\n' >> $HOME/.SciTEUser.properties
 ```
 
 ```bash
@@ -212,17 +241,65 @@ distro=raspbian sudo -E bash setup.deb.sh
 sudo apt install moonlight-qt
 ```
 
-## move some caches to tmp
+## ramdisks
+
+```
+# for /etc/fstab
+
+tmpfs /tmp tmpfs nodev,nosuid,mode=1777 0 0
+tmpfs /var/tmp tmpfs nodev,nosuid,mode=1777 0 0
+
+#tmpfs /home/someone/.cache tmpfs nodev,nosuid,mode=1777 0 2
+
+tmpfs /home/someone/.cache/thumbnails tmpfs nodev,nosuid,mode=1777 0 0
+tmpfs /home/someone/.cache/vlc tmpfs nodev,nosuid,mode=1777 0 0
+tmpfs /home/someone/.cache/chromium tmpfs nodev,nosuid,mode=1777 0 0
+```
 
 ```bash
-mkdir -p $HOME/.local/share $HOME/.cache
+mkdir -p ./home/someone/.cache/thumbnails ./home/someone/.cache/vlc ./home/someone/.cache/chromium
+```
 
-echo -e "\n#" >> /etc/fstab
 
-echo "/tmp $HOME/.local/share/gvfs-metadata none defaults,bind 0 0" >> /etc/fstab	
-echo "/tmp $HOME/.cache/thumbnails none defaults,bind 0 0" >> /etc/fstab
-echo "/tmp $HOME/.cache/vlc none defaults,bind 0 0" >> /etc/fstab
+## fix nvme disconnecting
 
-echo "#/tmp /$HOME/.cache/chromium none defaults,bind 0 0" >> /etc/fstab
-echo "#/tmp /$HOME/.cache/mozilla none defaults,bind 0 0" >> /etc/fstab
+in `/boot/firmware/cmdline.txt` try adding ad the end of the line, either/both: `nvme_core.default_ps_max_latency_us=0`,  `pcie_aspm=off`
+
+## nvme tools
+```
+sudo apt install smartmontools nvme-cli 
+```
+
+## fix nvme power management
+
+Get list of exit latency (Ex_Lat) values: `sudo smartctl -c /dev/nvme0n1`, try second largest value
+
+Set in `/boot/firmware/cmdline.txt`, `nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE`
+
+## check nvme for errors
+
+`sudo journalctl -b | grep -i nvme`
+
+## check nvme sensors
+
+`sudo nvme smart-log /dev/nvme0`
+
+## get nvme lnkcap info
+
+`lspci | grep -i nvme  | awk '{printf -s $1}' | sudo lspci -vv | grep -w LnkCap`
+
+## change nvme gen (eg 1)
+
+Add to `/boot/firmware/config.txt `:
+
+```
+dtparam=pciex1
+dtparam=pciex1_gen=1
+```
+
+## disable unecessary nvme services
+
+```
+sudo systemctl disable nvmf-autoconnect.service
+sudo systemctl disable nvmefc-boot-connections.service
 ```
