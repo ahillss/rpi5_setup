@@ -27,17 +27,26 @@ sudo mount /dev/nvme0n1p4 ./home
 ```
 
 4. Copy var, home to their new partitions eg:
+
 ```
 sudo cp -a ./root/home/* ./home/
 sudo cp -a ./root/var/* ./var/
 ```
 
-5. Add entries to fstab:
+5. Optionally backup old dirs
+
+```
+sudo mv ./root/var ./root/var2
+sudo mv ./root/tmp ./root/tmp2
+sudo mv ./root/home ./root/home2
+```
+
+6. Add entries to fstab:
+
 ```
 PARTUUID=YOUR_PART_UUID-03  /var               ext4    defaults,noatime    0 2
 PARTUUID=YOUR_PART_UUID-04  /home           ext4    defaults,noatime    0 2
 ```
-
 
 ### franebuffer 32 bit depth
 
