@@ -71,7 +71,7 @@ dtoverlay=disable-wifi
 dtoverlay=disable-bt
 ```
 
-### manually control fan (not working?)
+### manually control fan
 
 disable: `pinctrl FAN_PWM op dh`
 
@@ -80,7 +80,7 @@ full: `pinctrl FAN_PWM op dl`
 auto: `pinctrl FAN_PWM a0`
 
 
-### set speeds for temps
+### set speeds for temps (not working?)
 
 At the end of `/boot/firmware/config.txt` (these are the defaults [from here](file:///boot/firmware/overlays/README)):
 
