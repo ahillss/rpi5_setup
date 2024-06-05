@@ -15,8 +15,9 @@ In `/boot/firmware/cmdline.txt`, add (for first plug): ~~video=HDMI-A-1:-32~~ `v
 
 ### disable hdmi audio (haven't tested)
 
-In `/boot/firmware/config.txt`, add `noaudio` to end of `dtoverlay=vc4-kms-v3d`: `dtoverlay=vc4-kms-v3d,noaudio`
+In `/boot/firmware/config.txt`, add `noaudio` to end of `dtoverlay=vc4-kms-v3d`:
 
+`dtoverlay=vc4-kms-v3d,noaudio`
  
 ### disable wifi, bluetooth
 
