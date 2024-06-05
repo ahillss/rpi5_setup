@@ -334,7 +334,9 @@ sudo apt install smartmontools nvme-cli
 
 ### check nvme sensors
 
-`sudo nvme smart-log /dev/nvme0`
+`sudo nvme smart-log /dev/nvme0n1`
+
+`sudo smartctl -a /dev/nvme0n1`
 
 ### get nvme lnkcap info
 
