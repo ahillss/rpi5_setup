@@ -48,9 +48,9 @@ PARTUUID=YOUR_PART_UUID-03  /var               ext4    defaults,noatime    0 2
 PARTUUID=YOUR_PART_UUID-04  /home           ext4    defaults,noatime    0 2
 ```
 
-### franebuffer 32 bit depth
+### framebuffer 32 bit depth
 
-In `/boot/firmware/cmdline.txt`, add (for first plug): ~~video=HDMI-A-1:-32~~ `video=HDMI-A-1:1920x1080M-32@60` to the end.
+In `/boot/firmware/cmdline.txt`, add (for first plug): ~~`video=HDMI-A-1:-32`~~ `video=HDMI-A-1:1920x1080M-32@60` to the end.
 
 ### disable hdmi audio (haven't tested)
 
