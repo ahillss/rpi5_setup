@@ -82,7 +82,25 @@ auto: `pinctrl FAN_PWM a0`
 
 ### set speeds for temps
 
-`#todo`
+In `/boot/firmware/config.txt` (these are the defaults [from here](file:///boot/firmware/overlays/README)):
+
+`
+fan_temp0              50000
+fan_temp0_hyst      5000
+fan_temp0_speed   75
+
+fan_temp1              60000
+fan_temp1_hyst      5000
+fan_temp1_speed   125
+
+fan_temp2              67500
+fan_temp2_hyst      5000
+fan_temp2_speed   175
+
+fan_temp3              75000
+fan_temp3_hyst      5000
+fan_temp3_speed   250
+`
 
 ### ramdisks
 
@@ -108,7 +126,7 @@ tmpfs /home/someone/.cache tmpfs nodev,nosuid,mode=1777 0 2
 ```bash
 sudo apt update
 sudo apt full-upgrade
-sudo apt install thunar scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter
+sudo apt install thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter
 ```
 
 ### autostart
@@ -342,7 +360,7 @@ sudo apt install smartmontools nvme-cli
 
 `lspci | grep -i nvme  | awk '{printf -s $1}' | sudo lspci -vv | grep -w LnkCap`
 
-### change nvme gen (eg 1)
+### change nvme gen (eg gen 1)
 
 Add to `/boot/firmware/config.txt `:
 
