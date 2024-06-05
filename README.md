@@ -13,7 +13,7 @@ sudo rpi-eeprom-update
 
 In `/boot/firmware/cmdline.txt`, add (for first plug): ~~video=HDMI-A-1:-32~~ `video=HDMI-A-1:1920x1080M-32@60` to the end.
 
-###disable hdmi audio
+### disable hdmi audio (haven't tested)
 
 In `/boot/firmware/config.txt`, add `noaudio` to end of `dtoverlay=vc4-kms-v3d`: `dtoverlay=vc4-kms-v3d,noaudio`
 
@@ -48,11 +48,11 @@ auto: `pinctrl FAN_PWM a0`
 tmpfs /tmp tmpfs nodev,nosuid,mode=1777 0 0
 tmpfs /var/tmp tmpfs nodev,nosuid,mode=1777 0 0
 
-#tmpfs /home/someone/.cache tmpfs nodev,nosuid,mode=1777 0 2
+tmpfs /home/someone/.cache tmpfs nodev,nosuid,mode=1777 0 2
 
-tmpfs /home/someone/.cache/thumbnails tmpfs nodev,nosuid,mode=1777 0 0
-tmpfs /home/someone/.cache/vlc tmpfs nodev,nosuid,mode=1777 0 0
-tmpfs /home/someone/.cache/chromium tmpfs nodev,nosuid,mode=1777 0 0
+#tmpfs /home/someone/.cache/thumbnails tmpfs nodev,nosuid,mode=1777 0 0
+#tmpfs /home/someone/.cache/vlc tmpfs nodev,nosuid,mode=1777 0 0
+#tmpfs /home/someone/.cache/chromium tmpfs nodev,nosuid,mode=1777 0 0
 ```
 
 ```bash
@@ -60,6 +60,7 @@ mkdir -p ./home/someone/.cache/thumbnails ./home/someone/.cache/vlc ./home/someo
 ```
 
 ## apps
+
 ### installs
 
 ```bash
