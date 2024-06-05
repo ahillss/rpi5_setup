@@ -56,22 +56,22 @@ In `/boot/firmware/cmdline.txt`, add (for first plug) to the end:
 
 `video=HDMI-A-1:1920x1080M-32@60`
 
-### disable hdmi audio (haven't tested)
+### disable hdmi audio (untested)
 
 In `/boot/firmware/config.txt`, add `noaudio` to end of `dtoverlay=vc4-kms-v3d`:
 
 `dtoverlay=vc4-kms-v3d,noaudio`
  
-### disable wifi, bluetooth
+### disable wifi, bluetooth (untested)
 
-add to `/boot/firmware/config.txt`
+At the end of `/boot/firmware/config.txt` add:
 
 ```
 dtoverlay=disable-wifi
 dtoverlay=disable-bt
 ```
 
-### manually control fan
+### manually control fan (not working?)
 
 disable: `pinctrl FAN_PWM op dh`
 
@@ -82,24 +82,24 @@ auto: `pinctrl FAN_PWM a0`
 
 ### set speeds for temps
 
-In `/boot/firmware/config.txt` (these are the defaults [from here](file:///boot/firmware/overlays/README)):
+At the end of `/boot/firmware/config.txt` (these are the defaults [from here](file:///boot/firmware/overlays/README)):
 
 ```
-fan_temp0         50000
-fan_temp0_hyst    5000
-fan_temp0_speed   75
+dtparam=fan_temp0         50000
+dtparam=fan_temp0_hyst    5000
+dtparam=fan_temp0_speed   75
 
-fan_temp1         60000
-fan_temp1_hyst    5000
-fan_temp1_speed   125
+dtparam=fan_temp1         60000
+dtparam=fan_temp1_hyst    5000
+dtparam=fan_temp1_speed   125
 
-fan_temp2         67500
-fan_temp2_hyst    5000
-fan_temp2_speed   175
+dtparam=fan_temp2         67500
+dtparam=fan_temp2_hyst    5000
+dtparam=fan_temp2_speed   175
 
-fan_temp3         75000
-fan_temp3_hyst    5000
-fan_temp3_speed   250
+dtparam=fan_temp3         75000
+dtparam=fan_temp3_hyst    5000
+dtparam=fan_temp3_speed   250
 ```
 
 ### ramdisks
@@ -362,7 +362,7 @@ sudo apt install smartmontools nvme-cli
 
 ### change nvme gen (eg gen 1)
 
-Add to `/boot/firmware/config.txt `:
+Add to `/boot/firmware/config.txt ` (untested):
 
 ```
 dtparam=pciex1
