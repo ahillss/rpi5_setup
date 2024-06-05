@@ -82,7 +82,7 @@ auto: `pinctrl FAN_PWM a0`
 
 ### set speeds for temps
 
-At the end of `/boot/firmware/config.txt` (these are the defaults [from here](file:///boot/firmware/overlays/README)):
+At the end of `/boot/firmware/config.txt` (these are the defaults):
 
 ```
 dtparam=fan_temp0=50000
