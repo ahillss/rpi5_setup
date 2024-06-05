@@ -268,12 +268,9 @@ in `/boot/firmware/cmdline.txt` try adding at the end of the line, either or bot
 
 `nvme_core.default_ps_max_latency_us=0 pcie_aspm=off`
 
-### nvme tools
-```
-sudo apt install smartmontools nvme-cli 
-```
-
 ### fix nvme power management
+
+Helps if nvme keeps disconnecting with default value, if your ssd is running hot with it disabled (above).
 
 Get list of exit latency (Ex_Lat) values: 
 
@@ -284,6 +281,11 @@ In `/boot/firmware/cmdline.txt` add:
 `nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE`
 
 Change `YOUR_EX_LAT_VALUE` to one of the `Ex_Lat` values eg try second largest value.
+
+### nvme tools
+```
+sudo apt install smartmontools nvme-cli 
+```
 
 ### check nvme for errors
 
