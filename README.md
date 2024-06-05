@@ -1,22 +1,24 @@
-bm# rpi5 setup
+# rpi5 setup
 
-## misc
+## settings
+
+### misc
 
 ```bash
 sudo raspi-config
 sudo rpi-eeprom-update
 ```
 
-## franebuffer 32 bit depth
+### franebuffer 32 bit depth
 
 In `/boot/firmware/cmdline.txt`, add (for first plug): ~~video=HDMI-A-1:-32~~ `video=HDMI-A-1:1920x1080M-32@60` to the end.
 
-##disable hdmi audio
+###disable hdmi audio
 
 In `/boot/firmware/config.txt`, add `noaudio` to end of `dtoverlay=vc4-kms-v3d`: `dtoverlay=vc4-kms-v3d,noaudio`
 
  
-## disable wifi, bluetooth
+### disable wifi, bluetooth
 
 add to `/boot/firmware/config.txt`
 
@@ -25,25 +27,40 @@ dtoverlay=disable-wifi
 dtoverlay=disable-bt
 ```
 
-## manually control fan
+### manually control fan
+
+disable: `pinctrl FAN_PWM op dh`
+
+full: `pinctrl FAN_PWM op dl`
+
+auto: `pinctrl FAN_PWM a0`
+
+
+### set speeds for temps
+
+`#todo`
+
+### ramdisks
+
+```
+# for /etc/fstab
+
+tmpfs /tmp tmpfs nodev,nosuid,mode=1777 0 0
+tmpfs /var/tmp tmpfs nodev,nosuid,mode=1777 0 0
+
+#tmpfs /home/someone/.cache tmpfs nodev,nosuid,mode=1777 0 2
+
+tmpfs /home/someone/.cache/thumbnails tmpfs nodev,nosuid,mode=1777 0 0
+tmpfs /home/someone/.cache/vlc tmpfs nodev,nosuid,mode=1777 0 0
+tmpfs /home/someone/.cache/chromium tmpfs nodev,nosuid,mode=1777 0 0
+```
+
 ```bash
-#disable
-
-pinctrl FAN_PWM op dh
-
-#full
-pinctrl FAN_PWM op dl
-
-#auto
-pinctrl FAN_PWM a0
+mkdir -p ./home/someone/.cache/thumbnails ./home/someone/.cache/vlc ./home/someone/.cache/chromium
 ```
 
-## set speeds for temps
-```
-#todo
-```
-
-## installs
+## apps
+### installs
 
 ```bash
 sudo apt update
@@ -51,7 +68,7 @@ sudo apt full-upgrade
 sudo apt install thunar scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter
 ```
 
-## autostart
+### autostart
 
 ```bash
 echo -e "\n[autostart]" >> $HOME/.config/wayfire.ini
@@ -61,7 +78,7 @@ echo "unclutter=unclutter -idle 2 -jitter 2 -root" >> $HOME/.config/wayfire.ini
 echo "thunar=thunar --daemon" >> $HOME/.config/wayfire.ini
 ```
 
-## shortcuts
+### shortcuts
 
 ```bash
 echo -e '"chromium-browser"\nMod4+b\n' >> $HOME/.xbindkeysrc
@@ -72,7 +89,7 @@ echo -e '"moonlight-qt"\nMod4+m\n' >> $HOME/.xbindkeysrc
 echo -e '"scrot ~/Pictures/screenshot_$(date +%Y_%m_%d_%H_%M_%S_%3N).png"\nMod4+p\n' >> $HOME/.xbindkeysrc
 ```
 
-## gtk settings
+### gtk settings
 
 ```bash
 mkdir -p  $HOME/.config/gtk-2.0 $HOME/.config/gtk-3.0
@@ -83,21 +100,21 @@ echo -e "file://$HOME/Documents Documents\nfile://$HOME/Downloads Downloads\nfil
 echo -e '[Filechooser Settings]\nLocationMode=path-bar\nShowHidden=true\nShowSizeColumn=true\nSortColumn=name\nSortOrder=ascending\nStartupMode=recent' > $HOME/.config/gtk-2.0/gtkfilechooser.ini
 ```
 
-## viewnior
+### viewnior
 
 ```bash
 mkdir -p $HOME/.config/viewnior
 echo -e '[prefs]\nzoom-mode=3\nfit-on-fullscreen=true\nshow-hidden=true\nsmooth-images=true\nconfirm-delete=true\nreload-on-save=true\nshow-menu-bar=false\nshow-toolbar=true\nstart-maximized=false\nslideshow-timeout=5\nauto-resize=false\nbehavior-wheel=2\nbehavior-click=0\nbehavior-modify=2\njpeg-quality=100\npng-compression=9\ndesktop=1\n' > $HOME/.config/viewnior/viewnior.conf
 ```
 
-## thunar
+### thunar
 
 ```bash
 mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
 echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<channel name="thunar" version="1.0">\n\t<property name="last-show-hidden" type="bool"\nvalue="true"/>\n\t<property name="last-view" type="string" value="ThunarDetailsView"/>\n</channel>' >> $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
 ```
 
-## vlc
+### vlc
 
 ```bash
 mkdir -p $HOME/.config/vlc
@@ -107,7 +124,7 @@ echo -e "[qt4]\nqt-recentplay=0\nqt-privacy-ask=0\n\n[core]\nvideo-title-show=0\
 echo -e '[MainWindow]\nstatus-bar-visible=true' > $HOME/.config/vlc/vlc-qt-interface.conf
 ```
 
-## terminator
+### terminator
 
 ```bash
 mkdir -p $HOME/.config/terminator $HOME/.config/xfce4
@@ -115,7 +132,7 @@ echo -e '[global_config]\n  inactive_color_offset = 1.0\n[keybindings]\n  full_s
 echo 'TerminalEmulator=terminator' >> $HOME/.config/xfce4/helpers.rc
 ```
 
-## i3wm
+### i3wm
 
 ```bash
 sudo sed -i 's/\(autologin-session=\)\(.*\)/#\1\2\n\1i3/g' /etc/lightdm/lightdm.conf
@@ -147,7 +164,7 @@ echo 'bindsym Mod1+Control+Shift+s exec systemctl suspend' >> $HOME/.config/i3/c
 echo 'bindsym Mod1+Control+Shift+h exec systemctl hibernate' >> $HOME/.config/i3/config
 ```
 
-## i3 blocks
+### i3 blocks
 
 ```bash
 sed -i 's/\(status_command \)i3status/\1i3blocks/g' $HOME/.config/i3/config
@@ -171,7 +188,7 @@ echo -e '\n[volume]\ncommand=amixer -c 0 -M -D pulse get Master | sed "s/[][%]//
 ```
 
 
-## scite
+### scite
 
 ```bash
 echo '' > $HOME/.SciTEUser.properties
@@ -207,7 +224,7 @@ echo -e '[Desktop Entry]\nName=SciTE as Root\nType=Application\nExec=gksudo -k "
 sed -i 's/rust //g' /usr/share/scite/SciTEGlobal.properties
 ```
 
-## tigervnc
+### tigervnc
 
 ```bash
 echo -e '#!/bin/bash\n\nPASSWD_FILE=~/.vnc/passwd\n\nif [ $1 ]; then\n\techo $1 | vncpasswd -f > $PASSWD_FILE\nfi\n\nvncviewer passwd=$PASSWD_FILE' > /usr/local/bin/tigervnc.sh
@@ -219,7 +236,7 @@ mkdir -p $HOME/.vnc
 echo -e 'TigerVNC Configuration file Version 1.0\n\nDotWhenNoCursor=1\nRemoteResize=1\nMenuKey=' > $HOME/.vnc/default.tigervnc
 ```
 
-## xbox one controller
+### xbox one controller
 
 ```bash
 #sudo apt install xboxdrv
@@ -233,7 +250,7 @@ sudo ./install.sh
 sudo xone-get-firmware.sh
 ```
 
-## moonlight
+### moonlight
 
 ```bash
 wget "https://dl.cloudsmith.io/public/moonlight-game-streaming/moonlight-qt/setup.deb.sh"
@@ -241,54 +258,40 @@ distro=raspbian sudo -E bash setup.deb.sh
 sudo apt install moonlight-qt
 ```
 
-## ramdisks
+## nvme
 
-```
-# for /etc/fstab
+### fix nvme disconnecting
 
-tmpfs /tmp tmpfs nodev,nosuid,mode=1777 0 0
-tmpfs /var/tmp tmpfs nodev,nosuid,mode=1777 0 0
+in `/boot/firmware/cmdline.txt` try adding at the end of the line, either/both: `nvme_core.default_ps_max_latency_us=0`,  `pcie_aspm=off`
 
-#tmpfs /home/someone/.cache tmpfs nodev,nosuid,mode=1777 0 2
-
-tmpfs /home/someone/.cache/thumbnails tmpfs nodev,nosuid,mode=1777 0 0
-tmpfs /home/someone/.cache/vlc tmpfs nodev,nosuid,mode=1777 0 0
-tmpfs /home/someone/.cache/chromium tmpfs nodev,nosuid,mode=1777 0 0
-```
-
-```bash
-mkdir -p ./home/someone/.cache/thumbnails ./home/someone/.cache/vlc ./home/someone/.cache/chromium
-```
-
-
-## fix nvme disconnecting
-
-in `/boot/firmware/cmdline.txt` try adding ad the end of the line, either/both: `nvme_core.default_ps_max_latency_us=0`,  `pcie_aspm=off`
-
-## nvme tools
+### nvme tools
 ```
 sudo apt install smartmontools nvme-cli 
 ```
 
-## fix nvme power management
+### fix nvme power management
 
-Get list of exit latency (Ex_Lat) values: `sudo smartctl -c /dev/nvme0n1`, try second largest value
+Get list of exit latency (Ex_Lat) values: 
+
+`sudo smartctl -c /dev/nvme0n1`
+
+Change `YOUR_EX_LAT_VALUE` to one of the `Ex_Lat` values eg try second largest value.
 
 Set in `/boot/firmware/cmdline.txt`, `nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE`
 
-## check nvme for errors
+### check nvme for errors
 
 `sudo journalctl -b | grep -i nvme`
 
-## check nvme sensors
+### check nvme sensors
 
 `sudo nvme smart-log /dev/nvme0`
 
-## get nvme lnkcap info
+### get nvme lnkcap info
 
 `lspci | grep -i nvme  | awk '{printf -s $1}' | sudo lspci -vv | grep -w LnkCap`
 
-## change nvme gen (eg 1)
+### change nvme gen (eg 1)
 
 Add to `/boot/firmware/config.txt `:
 
@@ -297,7 +300,7 @@ dtparam=pciex1
 dtparam=pciex1_gen=1
 ```
 
-## disable unecessary nvme services
+### disable unecessary nvme services
 
 ```
 sudo systemctl disable nvmf-autoconnect.service
