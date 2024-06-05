@@ -99,9 +99,7 @@ tmpfs /home/someone/.cache tmpfs nodev,nosuid,mode=1777 0 2
 #tmpfs /home/someone/.cache/chromium tmpfs nodev,nosuid,mode=1777 0 0
 ```
 
-```bash
-mkdir -p ./home/someone/.cache/thumbnails ./home/someone/.cache/vlc ./home/someone/.cache/chromium
-```
+~~`mkdir -p ./home/someone/.cache/thumbnails ./home/someone/.cache/vlc ./home/someone/.cache/chromium`~~
 
 ## apps
 
