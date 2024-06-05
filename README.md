@@ -279,9 +279,11 @@ Get list of exit latency (Ex_Lat) values:
 
 `sudo smartctl -c /dev/nvme0n1`
 
-Change `YOUR_EX_LAT_VALUE` to one of the `Ex_Lat` values eg try second largest value.
+In `/boot/firmware/cmdline.txt` add:
 
-Set in `/boot/firmware/cmdline.txt`, `nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE`
+`nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE`
+
+Change `YOUR_EX_LAT_VALUE` to one of the `Ex_Lat` values eg try second largest value.
 
 ### check nvme for errors
 
