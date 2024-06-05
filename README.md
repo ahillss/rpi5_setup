@@ -264,7 +264,9 @@ sudo apt install moonlight-qt
 
 ### fix nvme disconnecting
 
-in `/boot/firmware/cmdline.txt` try adding at the end of the line, either/both: `nvme_core.default_ps_max_latency_us=0`,  `pcie_aspm=off`
+in `/boot/firmware/cmdline.txt` try adding at the end of the line, either or both: 
+
+`nvme_core.default_ps_max_latency_us=0 pcie_aspm=off`
 
 ### nvme tools
 ```
