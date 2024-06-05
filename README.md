@@ -9,6 +9,36 @@ sudo raspi-config
 sudo rpi-eeprom-update
 ```
 
+### adding additional partitions
+
+1. After installing pi os, run it once to set everything up
+2. Use a different os to access the drive, use gparted to shrink root partition, and create additional partitions (eg for var, home)
+3. Mount root and additional partitions eg:
+
+```
+mkdir temp
+cd temp
+
+mkdir -p root home var
+
+sudo mount /dev/nvme0n1p2 ./root
+sudo mount /dev/nvme0n1p3 ./var
+sudo mount /dev/nvme0n1p4 ./home
+```
+
+4. Copy var, home to their new partitions eg:
+```
+sudo cp -a ./root/home/* ./home/
+sudo cp -a ./root/var/* ./var/
+```
+
+5. Add entries to fstab:
+```
+PARTUUID=YOUR_PART_UUID-03  /var               ext4    defaults,noatime    0 2
+PARTUUID=YOUR_PART_UUID-04  /home           ext4    defaults,noatime    0 2
+```
+
+
 ### franebuffer 32 bit depth
 
 In `/boot/firmware/cmdline.txt`, add (for first plug): ~~video=HDMI-A-1:-32~~ `video=HDMI-A-1:1920x1080M-32@60` to the end.
@@ -270,7 +300,7 @@ in `/boot/firmware/cmdline.txt` try adding at the end of the line, either or bot
 
 ### fix nvme power management
 
-Helps if nvme keeps disconnecting with default value, if your ssd is running hot with it disabled (above).
+Helps if nvme keeps disconnecting with default value, or if your ssd is running hot with it disabled (above).
 
 Get list of exit latency (Ex_Lat) values: 
 
