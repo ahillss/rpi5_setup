@@ -84,7 +84,7 @@ auto: `pinctrl FAN_PWM a0`
 
 In `/boot/firmware/config.txt` (these are the defaults [from here](file:///boot/firmware/overlays/README)):
 
-`
+```
 fan_temp0              50000
 fan_temp0_hyst      5000
 fan_temp0_speed   75
@@ -100,7 +100,7 @@ fan_temp2_speed   175
 fan_temp3              75000
 fan_temp3_hyst      5000
 fan_temp3_speed   250
-`
+```
 
 ### ramdisks
 
