@@ -80,7 +80,7 @@ full: `pinctrl FAN_PWM op dl`
 auto: `pinctrl FAN_PWM a0`
 
 
-### set speeds for temps (not working?)
+### set speeds for temps
 
 At the end of `/boot/firmware/config.txt` (these are the defaults [from here](file:///boot/firmware/overlays/README)):
 
