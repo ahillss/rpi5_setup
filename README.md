@@ -155,6 +155,29 @@ dtparam=eth_led1=4
 
 ```
 
+### Reverting to stable release kernal version after having stupidly run `rpi-update`
+
+```
+sudo apt-get update
+sudo apt install --reinstall raspi-firmware
+sudo apt-get install --reinstall raspberrypi-bootloader raspberrypi-kernel
+
+```
+
+You might want to revert to the default bootloader version as well:
+
+1. `sudo raspi-config`
+2. `Advanced Options` => `Bootloader version` => `Default`
+
+
+Other things I read:
+
+* `sudo apt install --reinstall linux-image-rpi-2712 linux-image-rpi-v8`
+
+* `sudo rpi-update stable`
+
+* `sudo rpi-update master master`
+
 ## apps
 
 ### installs
@@ -422,29 +445,3 @@ dtparam=pciex1_gen=1
 sudo systemctl disable nvmf-autoconnect.service
 sudo systemctl disable nvmefc-boot-connections.service
 ```
-
-
-## Other
-
-### Reverting to stable release kernal version after having stupidly run `rpi-update`
-
-```
-sudo apt-get update
-sudo apt install --reinstall raspi-firmware
-sudo apt-get install --reinstall raspberrypi-bootloader raspberrypi-kernel
-
-```
-
-You might want to revert to the default bootloader version as well:
-
-1. `sudo raspi-config'
-2. `Advanced Options` => `Bootloader version` => `Default`
-
-
-Other things I read:
-
-* `sudo apt install --reinstall linux-image-rpi-2712 linux-image-rpi-v8`
-
-* `sudo rpi-update stable`
-
-* `sudo rpi-update master master`
