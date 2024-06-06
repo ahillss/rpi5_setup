@@ -179,7 +179,7 @@ Other things I read:
 
 * `sudo rpi-update master master`
 
-If you are having trouble changing the bootloder due to eeprom version then change to the default bootloader (which is lacking alot of features for the pi):
+If you are having trouble changing the boot order due to eeprom version then change to the default bootloader (which is lacking alot of features for the pi):
 
 1. `sudo raspi-config`
 2. `Advanced Options` => `Bootloader version` => `Default`
