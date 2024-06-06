@@ -164,10 +164,11 @@ sudo apt-get install --reinstall raspberrypi-bootloader raspberrypi-kernel
 
 ```
 
-You might want to revert to the default bootloader version as well:
+Revert bootloader/eeprom version:
 
-1. `sudo raspi-config`
-2. `Advanced Options` => `Bootloader version` => `Default`
+1. `sudo nano /etc/default/rpi-eeprom-update`
+2. change to `FIRMWARE_RELEASE_STATUS="default"`
+3. `sudo rpi-eeprom-update -a`
 
 
 Other things I read:
@@ -177,6 +178,11 @@ Other things I read:
 * `sudo rpi-update stable`
 
 * `sudo rpi-update master master`
+
+If you are having trouble changing the bootloder due to eeprom version then change to the default bootloader (which is lacking alot of features for the pi):
+
+1. `sudo raspi-config`
+2. `Advanced Options` => `Bootloader version` => `Default`
 
 ## apps
 
