@@ -1,21 +1,22 @@
-# rpi5 setup
+### useful commands
 
-## settings
+`sudo raspi-config`
 
-### misc
+Never run `sudo rpi-update`
+
+### installs
 
 ```bash
-sudo raspi-config
-sudo rpi-eeprom-update
-#sudo rpi-update (do not run!)
-
+sudo apt update
+sudo apt full-upgrade
+sudo apt install thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter blueman
 ```
 
 ### adding additional partitions
 
 1. After installing pi os, run it once to set everything up
 2. Use a different os to access the drive, use gparted to shrink root partition, and create additional partitions (eg for var, home)
-3. Mount root and additional partitions eg:
+3. Temporarily mount root, var, home partitions:
 
 ```
 mkdir temp
@@ -41,50 +42,40 @@ sudo cp -a ./root/var/* ./var/
 sudo mv ./root/var ./root/var2
 sudo mv ./root/tmp ./root/tmp2
 sudo mv ./root/home ./root/home2
+
+sudo mkdir -p ./root/var ./root/tmp ./root/home
 ```
 
-6. Add entries to fstab:
+6. Call `sudo nano ./root/etc/fstab` and insert:
 
 ```
-PARTUUID=YOUR_PART_UUID-03  /var         ext4    defaults,noatime    0 2
-PARTUUID=YOUR_PART_UUID-04  /home           ext4    defaults,noatime    0 2
-```
+PARTUUID=YOUR_PART_UUID-03  /var    ext4    defaults,noatime    0 2
+PARTUUID=YOUR_PART_UUID-04  /home   ext4    defaults,noatime    0 2
 
-### framebuffer 32 bit depth
+tmpfs /tmp tmpfs nodev,nosuid,mode=1777 0 0
+tmpfs /var/tmp tmpfs nodev,nosuid,mode=1777 0 0
 
-In `/boot/firmware/cmdline.txt`, add (for first plug) to the end: 
-
-~~`video=HDMI-A-1:-32`~~ 
-
-`video=HDMI-A-1:1920x1080M-32@60`
-
-### disable hdmi audio (untested)
-
-In `/boot/firmware/config.txt`, add `noaudio` to end of `dtoverlay=vc4-kms-v3d`:
-
-`dtoverlay=vc4-kms-v3d,noaudio`
- 
-### disable wifi, bluetooth (untested)
-
-At the end of `/boot/firmware/config.txt` add:
+tmpfs /home/YOUR_USER_NAME/.cache tmpfs nodev,nosuid,mode=1777 0 0
 
 ```
-dtoverlay=disable-wifi
-dtoverlay=disable-bt
-```
 
-### manually control fan
+### Fix keyboard (eg hash key is pound symbol)
 
-disable: `pinctrl FAN_PWM op dh`
+Call `sudo raspi-config` => `Localisation Options` => `Keyboard`
 
-full: `pinctrl FAN_PWM op dl`
 
-auto: `pinctrl FAN_PWM a0`
+### Reduce power when turned off
+
+`sudo rpi-eeprom-config -e`
+
+change `POWER_OFF_ON_HALT=0` to `POWER_OFF_ON_HALT=1`
 
 
 ### set speeds for temps
 
-At the end of `/boot/firmware/config.txt` (these are the defaults):
+`sudo nano /boot/firmware/config.txt` 
+
+Add to end (these are the defaults):
 
 ```
 dtparam=fan_temp0=50000
@@ -104,106 +95,117 @@ dtparam=fan_temp3_hyst=5000
 dtparam=fan_temp3_speed=250
 ```
 
-### ramdisks
+### manually control fan
+
+disable: `pinctrl FAN_PWM op dh`
+
+full: `pinctrl FAN_PWM op dl`
+
+auto: `pinctrl FAN_PWM a0`
+
+
+### disable wifi, bluetooth (untested)
+
+`sudo nano /boot/firmware/config.txt`
+
+Add to end:
 
 ```
-# for /etc/fstab
-
-tmpfs /tmp tmpfs nodev,nosuid,mode=1777 0 0
-tmpfs /var/tmp tmpfs nodev,nosuid,mode=1777 0 0
-
-tmpfs /home/someone/.cache tmpfs nodev,nosuid,mode=1777 0 2
-
-#tmpfs /home/someone/.cache/thumbnails tmpfs nodev,nosuid,mode=1777 0 0
-#tmpfs /home/someone/.cache/vlc tmpfs nodev,nosuid,mode=1777 0 0
-#tmpfs /home/someone/.cache/chromium tmpfs nodev,nosuid,mode=1777 0 0
+dtoverlay=disable-wifi
+dtoverlay=disable-bt
 ```
 
-~~`mkdir -p ./home/someone/.cache/thumbnails ./home/someone/.cache/vlc ./home/someone/.cache/chromium`~~
+### disable hdmi audio (untested)
 
-### Reduce power on off
+`sudo nano /boot/firmware/config.txt`
 
-1. Run `sudo rpi-eeprom-config -e`
-2. Change `POWER_OFF_ON_HALT=0` to `POWER_OFF_ON_HALT=1`
+Add `noaudio` to end of `dtoverlay=vc4-kms-v3d`: `dtoverlay=vc4-kms-v3d,noaudio`
 
-### Turn status leds off
+### framebuffer 32 bit depth
 
-At the end of `/boot/firmware/config.txt` (not working?):
+`sudo nano /boot/firmware/cmdline.txt`
 
-```
-#dtoverlay=act-led
+add to the end (for the first plug): ~~`video=HDMI-A-1:-32`~~ `video=HDMI-A-1:1920x1080M-32@60`
 
+## nvme
 
-#dtparam=pwr_led_trigger=none
-dtparam=pwr_led_trigger=default-on
-dtparam=pwr_led_activelow=off
+### install nvme tools
 
-dtparam=act_led_trigger=none
-#dtparam=act_led_trigger=default-on
-dtparam=act_led_activelow=off
+`sudo apt install smartmontools nvme-cli`
 
+### check nvme for errors
 
-```
+`sudo journalctl -b | grep -i nvme`
 
-### Turn ethernet lights off
+### check nvme sensors
 
-At the end of `/boot/firmware/config.txt`:
+`sudo nvme smart-log /dev/nvme0n1`
 
-```
-dtparam=eth_led0=4
-dtparam=eth_led1=4
+`sudo smartctl -a /dev/nvme0n1`
 
-```
+### get nvme lnkcap info
 
-### Reverting kernal to the stable release version after having stupidly run `rpi-update`
+`lspci | grep -i nvme  | awk '{printf -s $1}' | sudo lspci -vv | grep -w LnkCap`
+
+### change nvme gen (eg gen 1)
+
+Add to `/boot/firmware/config.txt ` (untested):
 
 ```
-sudo apt-get update
-sudo apt install --reinstall raspi-firmware
-sudo apt-get install --reinstall raspberrypi-bootloader raspberrypi-kernel
-
+dtparam=pciex1
+dtparam=pciex1_gen=1
 ```
 
-Revert bootloader/eeprom version:
+### disable unecessary nvme services
 
-1. `sudo nano /etc/default/rpi-eeprom-update`, change to `FIRMWARE_RELEASE_STATUS="default"`
-2. See update available: `sudo rpi-eeprom-update`
-3. Update: `sudo rpi-eeprom-update -a`
-4. 
+```
+sudo systemctl disable nvmf-autoconnect.service
+sudo systemctl disable nvmefc-boot-connections.service
+```
 
+### fix nvme disconnecting
 
-Other things I read:
+#### disable power management
 
-* `sudo apt install --reinstall linux-image-rpi-2712 linux-image-rpi-v8`
+`sudo nano /boot/firmware/cmdline.txt`
 
-* `sudo rpi-update stable`
+add to end: `nvme_core.default_ps_max_latency_us=0 pcie_aspm=off`
 
-* `sudo rpi-update master master`
+#### update firmware
 
-If you are having trouble changing the boot order due to eeprom version then change to the default bootloader (which is lacking alot of features for the pi):
+`sudo rpi-eeprom-update -a`
 
-1. `sudo raspi-config`
-2. `Advanced Options` => `Bootloader version` => `Default`
+#### change max exit latency
+
+Get list of exit latency (Ex_Lat) values: `sudo smartctl -c /dev/nvme0n1`
+
+`sudo nano /boot/firmware/cmdline.txt` add to end: `nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE` using `Ex_Lat` value from list above
 
 ## apps
 
-### installs
-
-```bash
-sudo apt update
-sudo apt full-upgrade
-sudo apt install thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter
-```
 
 ### autostart
 
-```bash
+```
 echo -e "\n[autostart]" >> $HOME/.config/wayfire.ini
 echo "xbindkeys=xbindkeys -p" >> $HOME/.config/wayfire.ini
 echo "solaar=solaar -w hide" >> $HOME/.config/wayfire.ini
 echo "unclutter=unclutter -idle 2 -jitter 2 -root" >> $HOME/.config/wayfire.ini
 echo "thunar=thunar --daemon" >> $HOME/.config/wayfire.ini
+echo "blueman=blueman-applet" >> $HOME/.config/wayfire.ini
 ```
+
+or:
+
+```
+echo "xbindkeys -p &" >> $HOME/autostart.sh
+echo "solaar -w hide &" >> $HOME/autostart.sh
+echo "unclutter -idle 2 -jitter 2 -root &" >> $HOME/autostart.sh
+echo "thunar --daemon &" >> $HOME/autostart.sh
+echo "blueman-applet &" >> $HOME/autostart.sh
+sudo chmod +xr $HOME/autostart.sh
+```
+
 
 ### shortcuts
 
@@ -214,6 +216,7 @@ echo -e '"scite"\nMod4+s\n' >> $HOME/.xbindkeysrc
 echo -e '"lxtask"\nControl+Shift+Escape\n' >> $HOME/.xbindkeysrc
 echo -e '"moonlight-qt"\nMod4+m\n' >> $HOME/.xbindkeysrc	
 echo -e '"scrot ~/Pictures/screenshot_$(date +%Y_%m_%d_%H_%M_%S_%3N).png"\nMod4+p\n' >> $HOME/.xbindkeysrc
+echo -e '"scrot ~/Pictures/screenshot_$(date +%Y_%m_%d_%H_%M_%S_%3N).png"\nControl+p\n' >> $HOME/.xbindkeysrc
 ```
 
 ### gtk settings
@@ -270,25 +273,28 @@ mkdir -p $HOME/.config/i3
 cp -f /etc/i3/config $HOME/.config/i3/
 
 sed -i 's/\(^exec --no-startup-id.*\)/#\1/g' $HOME/.config/i3/config
-
 sed -i 's/\(bindsym Mod1+d exec\) \(dmenu_run\)/\1 --no-startup-id \2/g' $HOME/.config/i3/config
 sed -i 's/\(exec i3-config-wizard\)/#\1/g' $HOME/.config/i3/config
 sed -i 's/# \(bindsym Mod1+\)\(d exec --no-startup-id i3-dmenu-desktop\)/\1Shift+\2/g' $HOME/.config/i3/config
 sed -i 's/\(set \$mod\) Mod4/\1 Mod1/g' $HOME/.config/i3/config
 sed -i '/^bar {$/ a\\t#mode hide\n\t#hidden_state hide\n\tmodifier Mod1' $HOME/.config/i3/config
 sed -i '/^bar {$/ a\\t#tray_output primary' $HOME/.config/i3/config
-#sed -i 's/^\(font pango:\).*/\1Ubuntu Mono 14/g' $HOME/.config/i3/config
-
-sed -i '/^font pango.*/a#font pango:Ubuntu Mono 18' $HOME/.config/i3/config
+sed -i '/^# kill focused window/abindsym Mod1+Shift+x exec xdotool getwindowfocus windowkill' $HOME/.config/i3/config
 
 echo 'bindsym Mod1+Shift+h bar mode toggle' >> $HOME/.config/i3/config
 echo -e '\n#\nworkspace_layout tabbed\ndefault_orientation vertical' >> $HOME/.config/i3/config
+echo -e '\n#' >> $HOME/.config/i3/config
 echo 'for_window [window_role="pop-up"] floating enable' >> $HOME/.config/i3/config
 echo 'for_window [title="File Operation Progress"] floating enable' >> $HOME/.config/i3/config
-echo '#for_window [class="Chromium"] floating disable' >> $HOME/.config/i3/config	
-sed -i '/^# kill focused window/abindsym Mod1+Shift+x exec xdotool getwindowfocus windowkill' $HOME/.config/i3/config	
-echo 'bindsym Mod1+Control+Shift+s exec systemctl suspend' >> $HOME/.config/i3/config
-echo 'bindsym Mod1+Control+Shift+h exec systemctl hibernate' >> $HOME/.config/i3/config
+echo -e '\n#' >> $HOME/.config/i3/config
+echo 'assign [class="Moonlight"] 3' >> $HOME/.config/i3/config
+echo 'assign [class="Chromium"] 1' >> $HOME/.config/i3/config
+
+echo -e '\n#\n#exec --no-startup-id ~/runstart.sh' >> $HOME/.config/i3/config
+
+
+#sed -i 's/^\(font pango:\).*/\1Ubuntu Mono 14/g' $HOME/.config/i3/config
+#sed -i '/^font pango.*/a#font pango:Ubuntu Mono 18' $HOME/.config/i3/config
 ```
 
 ### i3 blocks
@@ -314,7 +320,6 @@ echo -e '\n[volume]\ncommand=amixer -c 0 -M -D pulse get Master | sed "s/[][%]//
 
 ```
 
-
 ### scite
 
 ```bash
@@ -329,44 +334,22 @@ echo -e '\nindent.size=4\ntabsize=4\nuse.tabs=0\n' >> $HOME/.SciTEUser.propertie
 echo -e 'use.tabs.$(file.patterns.make)=1\n' >> $HOME/.SciTEUser.properties
 echo -e '\nstatusbar.text.1=pos=$(CurrentPos),li=$(LineNumber), co=$(ColumnNumber) [$(EOLMode)]\next.lua.startup.script=$(SciteUserHome)/.SciTEStartup.lua\n' >> $HOME/.SciTEUser.properties
 echo -e 'function OnUpdateUI() props["CurrentPos"]=editor.CurrentPos end' > $HOME/.SciTEStartup.lua
+
+echo -e '#selection.back=#CCBDFF\n#selection.alpha=50\n#selection.layer=1\n' >> $HOME/.SciTEUser.properties
+echo -e '#caret.line.back=#CCDDFF\n#caret.fore=#FFFFFF\n' >> $HOME/.SciTEUser.properties
+echo -e '#highlight.current.word=1\n#highlight.current.word.indicator=style:straightbox,colour:#FFBBDD,fillalpha:255,under\n#style.*.34=back:#51DAEA\n' >> $HOME/.SciTEUser.properties
+
+
+echo -e 'selection.back=#227733\nselection.alpha=50\nselection.layer=1\n' >> $HOME/.SciTEUser.properties
+echo -e 'caret.line.back=#444444\n' >> $HOME/.SciTEUser.properties
+echo -e 'highlight.current.word=1\nhighlight.current.word.indicator=style:straightbox,colour:#777777,fillalpha:255,under\nstyle.*.34=back:#22AAFF\n' >> $HOME/.SciTEUser.properties
+echo -e 'style.*.32=$(font.base),back:#101010,fore:#BBBBDD\nstyle.*.33=$(font.base),back:#101010\n' >> $HOME/.SciTEUser.properties
+echo -e 'font.base=font:Verdana,size:16\nfont.small=font:Verdana,size:14\nfont.comment=font:Georgia,size:16\n' >> $HOME/.SciTEUser.properties
 ```
 
-```bash
-echo -e 'selection.back=#CCBDFF\nselection.alpha=50\nselection.layer=1\n' >> $HOME/.SciTEUser.properties
-echo -e 'caret.line.back=#CCDDFF\ncaret.fore=#FFFFFF\n' >> $HOME/.SciTEUser.properties
-echo -e 'highlight.current.word=1\nhighlight.current.word.indicator=style:straightbox,colour:#FFBBDD,fillalpha:255,under\nstyle.*.34=back:#51DAEA\n' >> $HOME/.SciTEUser.properties
-
-
-#echo -e 'selection.back=#227733\nselection.alpha=50\nselection.layer=1\n' >> $HOME/.SciTEUser.properties
-#echo -e 'caret.line.back=#444444\n' >> $HOME/.SciTEUser.properties
-#echo -e 'highlight.current.word=1\nhighlight.current.word.indicator=style:straightbox,colour:#777777,fillalpha:255,under\nstyle.*.34=back:#22AAFF\n' >> $HOME/.SciTEUser.properties
-#echo -e 'style.*.32=$(font.base),back:#101010,fore:#BBBBDD\nstyle.*.33=$(font.base),back:#101010\n' >> $HOME/.SciTEUser.properties
-#echo -e 'font.base=font:Verdana,size:16\nfont.small=font:Verdana,size:14\nfont.comment=font:Georgia,size:16\n' >> $HOME/.SciTEUser.properties
-```
+### xbox one controller (xone)
 
 ```bash
-mkdir -p /usr/local/share/applications
-echo -e '[Desktop Entry]\nName=SciTE New Window\nType=Application\nExec=SciTE -check.if.already.open=0 %F\nIcon=Sci48M\nMimeType=text/plain;' > /usr/local/share/applications/scitenew.desktop
-echo -e '[Desktop Entry]\nName=SciTE as Root\nType=Application\nExec=gksudo -k "SciTE -check.if.already.open=0 %F"\nIcon=Sci48M\nMimeType=text/plain;' > /usr/local/share/applications/sciteroot.desktop
-sed -i 's/rust //g' /usr/share/scite/SciTEGlobal.properties
-```
-
-### tigervnc
-
-```bash
-echo -e '#!/bin/bash\n\nPASSWD_FILE=~/.vnc/passwd\n\nif [ $1 ]; then\n\techo $1 | vncpasswd -f > $PASSWD_FILE\nfi\n\nxtigervncviewer passwd=$PASSWD_FILE' > /usr/local/bin/tigervnc.sh
-chmod +xr /usr/local/bin/tigervnc.sh
-```
-
-```bash
-mkdir -p $HOME/.vnc
-echo -e 'TigerVNC Configuration file Version 1.0\n\nDotWhenNoCursor=1\nRemoteResize=1\nMenuKey=' > $HOME/.vnc/default.tigervnc
-```
-
-### xbox one controller
-
-```bash
-#sudo apt install xboxdrv
 sudo apt install --no-install-recommends dkms
 sudo apt-get -y install cabextract
 
@@ -377,7 +360,8 @@ sudo ./install.sh
 sudo xone-get-firmware.sh
 ```
 
-###
+### xbox one controller (xpadneo)
+
 ```
 sudo apt install --no-install-recommends dkms
 sudo apt install raspberrypi-kernel-headers
@@ -386,8 +370,6 @@ git clone https://github.com/atar-axis/xpadneo.git
 cd xpadneo
 sudo ./install.sh
 
-
-sudo apt list --installed | grep headers
 ```
 ### moonlight
 
@@ -395,60 +377,4 @@ sudo apt list --installed | grep headers
 wget "https://dl.cloudsmith.io/public/moonlight-game-streaming/moonlight-qt/setup.deb.sh"
 distro=raspbian sudo -E bash setup.deb.sh
 sudo apt install moonlight-qt
-```
-
-## nvme
-
-### fix nvme disconnecting
-
-1. in `/boot/firmware/cmdline.txt` try adding to the end: `nvme_core.default_ps_max_latency_us=0 pcie_aspm=off`
-
-2. Update firmware `sudo rpi-eeprom-update -a`
-
-### fix nvme power management
-
-Helps if nvme keeps disconnecting with default value, or if your ssd is running hot with it disabled (above).
-
-Get list of exit latency (Ex_Lat) values: 
-
-`sudo smartctl -c /dev/nvme0n1`
-
-In `/boot/firmware/cmdline.txt` add:
-
-`nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE`
-
-Change `YOUR_EX_LAT_VALUE` to one of the `Ex_Lat` values eg try second largest value, and if you are still getting errors, try the smaller entries.
-
-### nvme tools
-
-`sudo apt install smartmontools nvme-cli`
-
-### check nvme for errors
-
-`sudo journalctl -b | grep -i nvme`
-
-### check nvme sensors
-
-`sudo nvme smart-log /dev/nvme0n1`
-
-`sudo smartctl -a /dev/nvme0n1`
-
-### get nvme lnkcap info
-
-`lspci | grep -i nvme  | awk '{printf -s $1}' | sudo lspci -vv | grep -w LnkCap`
-
-### change nvme gen (eg gen 1)
-
-Add to `/boot/firmware/config.txt ` (untested):
-
-```
-dtparam=pciex1
-dtparam=pciex1_gen=1
-```
-
-### disable unecessary nvme services
-
-```
-sudo systemctl disable nvmf-autoconnect.service
-sudo systemctl disable nvmefc-boot-connections.service
 ```
