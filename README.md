@@ -7,7 +7,7 @@
 ```bash
 sudo raspi-config
 sudo rpi-eeprom-update
-sudo rpi-update
+#sudo rpi-update (do not run!)
 
 ```
 
@@ -131,6 +131,8 @@ tmpfs /home/someone/.cache tmpfs nodev,nosuid,mode=1777 0 2
 At the end of `/boot/firmware/config.txt` (not working?):
 
 ```
+#dtoverlay=act-led
+
 
 #dtparam=pwr_led_trigger=none
 dtparam=pwr_led_trigger=default-on
@@ -345,6 +347,18 @@ sudo ./install.sh
 sudo xone-get-firmware.sh
 ```
 
+###
+```
+sudo apt install --no-install-recommends dkms
+sudo apt install raspberrypi-kernel-headers
+
+git clone https://github.com/atar-axis/xpadneo.git
+cd xpadneo
+sudo ./install.sh
+
+
+sudo apt list --installed | grep headers
+```
 ### moonlight
 
 ```bash
@@ -373,7 +387,7 @@ In `/boot/firmware/cmdline.txt` add:
 
 `nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE`
 
-Change `YOUR_EX_LAT_VALUE` to one of the `Ex_Lat` values eg try second largest value.
+Change `YOUR_EX_LAT_VALUE` to one of the `Ex_Lat` values eg try second largest value, and if you are still getting errors, try the smaller entries.
 
 ### nvme tools
 
@@ -408,3 +422,29 @@ dtparam=pciex1_gen=1
 sudo systemctl disable nvmf-autoconnect.service
 sudo systemctl disable nvmefc-boot-connections.service
 ```
+
+
+## Other
+
+### Reverting to stable release kernal version after having stupidly run `rpi-update`
+
+```
+sudo apt-get update
+sudo apt install --reinstall raspi-firmware
+sudo apt-get install --reinstall raspberrypi-bootloader raspberrypi-kernel
+
+```
+
+You might want to revert to the default bootloader version as well:
+
+1. `sudo raspi-config'
+2. `Advanced Options` => `Bootloader version` => `Default`
+
+
+Other things I read:
+
+* `sudo apt install --reinstall linux-image-rpi-2712 linux-image-rpi-v8`
+
+* `sudo rpi-update stable`
+
+* `sudo rpi-update master master`
