@@ -400,9 +400,9 @@ sudo apt install moonlight-qt
 
 ### fix nvme disconnecting
 
-in `/boot/firmware/cmdline.txt` try adding at the end of the line, either or both: 
+1. in `/boot/firmware/cmdline.txt` try adding to the end: `nvme_core.default_ps_max_latency_us=0 pcie_aspm=off`
 
-`nvme_core.default_ps_max_latency_us=0 pcie_aspm=off`
+2. Update firmware `sudo rpi-eeprom-update -a`
 
 ### fix nvme power management
 
