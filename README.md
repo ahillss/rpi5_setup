@@ -155,7 +155,7 @@ dtparam=eth_led1=4
 
 ```
 
-### Reverting to stable release kernal version after having stupidly run `rpi-update`
+### Reverting kernal to the stable release version after having stupidly run `rpi-update`
 
 ```
 sudo apt-get update
