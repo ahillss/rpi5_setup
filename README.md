@@ -2,7 +2,7 @@
 
 `sudo raspi-config`
 
-Never run `sudo rpi-update`
+Never run `sudo rpi-update`.
 
 ### installs
 
@@ -56,7 +56,6 @@ tmpfs /tmp tmpfs nodev,nosuid,mode=1777 0 0
 tmpfs /var/tmp tmpfs nodev,nosuid,mode=1777 0 0
 
 tmpfs /home/YOUR_USER_NAME/.cache tmpfs nodev,nosuid,mode=1777 0 0
-
 ```
 
 ### Fix keyboard (eg hash key is pound symbol)
@@ -183,7 +182,6 @@ Get list of exit latency (Ex_Lat) values: `sudo smartctl -c /dev/nvme0n1`
 
 ## apps
 
-
 ### autostart
 
 ```
@@ -205,7 +203,6 @@ echo "thunar --daemon &" >> $HOME/autostart.sh
 echo "blueman-applet &" >> $HOME/autostart.sh
 sudo chmod +xr $HOME/autostart.sh
 ```
-
 
 ### shortcuts
 
@@ -248,9 +245,7 @@ echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<channel name="thunar" version=
 
 ```bash
 mkdir -p $HOME/.config/vlc
-
 echo -e "[qt4]\nqt-recentplay=0\nqt-privacy-ask=0\n\n[core]\nvideo-title-show=0\nplay-and-exit=1\none-instance-when-started-from-file=0\nsnapshot-path=$HOME/Pictures\nsnapshot-prefix=$N_[$T]_\nsnapshot-sequential=1\nkey-vol-up=Ctrl+Up\nkey-vol-down=Ctrl+Down\nkey-vol-mute=m\nkey-stop=\nkey-snapshot=s\nstats=0\nstereo-mode=1" > $HOME/.config/vlc/vlcrc
-
 echo -e '[MainWindow]\nstatus-bar-visible=true' > $HOME/.config/vlc/vlc-qt-interface.conf
 ```
 
@@ -299,9 +294,11 @@ echo -e '\n#\n#exec --no-startup-id ~/runstart.sh' >> $HOME/.config/i3/config
 
 ### i3 blocks
 
-```bash
+```
 sed -i 's/\(status_command \)i3status/\1i3blocks/g' $HOME/.config/i3/config
+```
 
+```
 mkdir -p $HOME/.config/i3blocks
 echo -n '' >  $HOME/.config/i3blocks/config
 
@@ -338,7 +335,6 @@ echo -e 'function OnUpdateUI() props["CurrentPos"]=editor.CurrentPos end' > $HOM
 echo -e '#selection.back=#CCBDFF\n#selection.alpha=50\n#selection.layer=1\n' >> $HOME/.SciTEUser.properties
 echo -e '#caret.line.back=#CCDDFF\n#caret.fore=#FFFFFF\n' >> $HOME/.SciTEUser.properties
 echo -e '#highlight.current.word=1\n#highlight.current.word.indicator=style:straightbox,colour:#FFBBDD,fillalpha:255,under\n#style.*.34=back:#51DAEA\n' >> $HOME/.SciTEUser.properties
-
 
 echo -e 'selection.back=#227733\nselection.alpha=50\nselection.layer=1\n' >> $HOME/.SciTEUser.properties
 echo -e 'caret.line.back=#444444\n' >> $HOME/.SciTEUser.properties
