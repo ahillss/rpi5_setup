@@ -7,6 +7,8 @@
 ```bash
 sudo raspi-config
 sudo rpi-eeprom-update
+sudo rpi-update
+
 ```
 
 ### adding additional partitions
@@ -118,6 +120,38 @@ tmpfs /home/someone/.cache tmpfs nodev,nosuid,mode=1777 0 2
 ```
 
 ~~`mkdir -p ./home/someone/.cache/thumbnails ./home/someone/.cache/vlc ./home/someone/.cache/chromium`~~
+
+### Reduce power on off
+
+1. Run `sudo rpi-eeprom-config -e`
+2. Change `POWER_OFF_ON_HALT=0` to `POWER_OFF_ON_HALT=1`
+
+### Turn status leds off
+
+At the end of `/boot/firmware/config.txt` (not working?):
+
+```
+
+#dtparam=pwr_led_trigger=none
+dtparam=pwr_led_trigger=default-on
+dtparam=pwr_led_activelow=off
+
+dtparam=act_led_trigger=none
+#dtparam=act_led_trigger=default-on
+dtparam=act_led_activelow=off
+
+
+```
+
+### Turn ethernet lights off
+
+At the end of `/boot/firmware/config.txt`:
+
+```
+dtparam=eth_led0=4
+dtparam=eth_led1=4
+
+```
 
 ## apps
 
@@ -288,7 +322,7 @@ sed -i 's/rust //g' /usr/share/scite/SciTEGlobal.properties
 ### tigervnc
 
 ```bash
-echo -e '#!/bin/bash\n\nPASSWD_FILE=~/.vnc/passwd\n\nif [ $1 ]; then\n\techo $1 | vncpasswd -f > $PASSWD_FILE\nfi\n\nvncviewer passwd=$PASSWD_FILE' > /usr/local/bin/tigervnc.sh
+echo -e '#!/bin/bash\n\nPASSWD_FILE=~/.vnc/passwd\n\nif [ $1 ]; then\n\techo $1 | vncpasswd -f > $PASSWD_FILE\nfi\n\nxtigervncviewer passwd=$PASSWD_FILE' > /usr/local/bin/tigervnc.sh
 chmod +xr /usr/local/bin/tigervnc.sh
 ```
 
@@ -342,9 +376,8 @@ In `/boot/firmware/cmdline.txt` add:
 Change `YOUR_EX_LAT_VALUE` to one of the `Ex_Lat` values eg try second largest value.
 
 ### nvme tools
-```
-sudo apt install smartmontools nvme-cli 
-```
+
+`sudo apt install smartmontools nvme-cli`
 
 ### check nvme for errors
 
