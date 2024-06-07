@@ -165,7 +165,21 @@ add to end: `nvme_core.default_ps_max_latency_us=0 pcie_aspm=off`
 
 `sudo rpi-eeprom-update -a`
 
+#### change nvme gen 1
+
+`sudo nano /boot/firmware/config.txt `
+
+Add:
+
+
+```
+dtparam=pciex1
+dtparam=pciex1_gen=1
+```
+
 #### change max exit latency (maybe helps)
+
+Instead of disabling it, as that will also increase the temps.
 
 Get list of exit latency (Ex_Lat) values: 
 
@@ -178,15 +192,6 @@ Add to end:
 `nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE` 
 
 Get `Ex_Lat` value from list above (try second largest, then third etc if it keeps disconnecting).
-
-#### change nvme gen 1  (maybe helps)
-
-`sudo nano /boot/firmware/config.txt `
-
-```
-dtparam=pciex1
-dtparam=pciex1_gen=1
-```
 
 ## apps
 
@@ -308,7 +313,7 @@ mkdir -p $HOME/.config/i3blocks
 echo -n '' >  $HOME/.config/i3blocks/config
 
 echo -e '\n[cpu_load]\ncolor=#FFFFFF\ncommand=mpstat -P ALL 1 1 |  awk '"'"'/Average:/ && $2 ~ /[0-9]/ {printf "%.0f\\x25 ",100-$12}'"'"'|xargs\ninterval=10' >> $HOME/.config/i3blocks/config
-echo -e '\n[cpu_hertz]\ncolor=#FFBB66\ncommand=find /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_cur_freq  -type f |xargs cat | awk '"'"'{printf "%.1f ",$1/1000000}'"'"'|xargs\ninterval=5' >> $HOME/.config/i3blocks/config
+echo -e '\n[cpu_hertz]\ncolor=#FFBB66\ncommand=find /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_cur_freq  -type f |xargs cat | awk '"'"'{printf "%.0f ",$1/100000}'"'"'|xargs\ninterval=5' >> $HOME/.config/i3blocks/config
 echo -e '\n[memory_free]\ncolor=#EEFF88\ncommand=awk '"'"'/MemAvailable/ {printf("%d\\xcb\\x96\\n", ($2/1000))}'"'"' /proc/meminfo\ninterval=2' >> $HOME/.config/i3blocks/config
 echo -e '\n#[memory_used]\n#color=#FFDDCC\n#command=awk '"'"'/MemTotal|MemAvailable/ {print $2}'"'"' /proc/meminfo | paste -sd'"'"' '"'"' | awk '"'"'{printf "%d\\xcb\\x97\\n",($1-$2)/1000}'"'"'\n#interval=2' >> $HOME/.config/i3blocks/config
 echo -e '\n#[swap_free]\n#command=awk '"'"'/SwapTotal|SwapFree/ {print $2}'"'"' /proc/meminfo | paste -sd'"'"' '"'"' | awk '"'"'{printf "<span color=\\"%s\\">%d\\xcb\\x96</span>\\n",$1=="0"?"#555555":"#FFDDCC",$2/1000}'"'"'\n#interval=2\n#markup=pango' >> $HOME/.config/i3blocks/config
