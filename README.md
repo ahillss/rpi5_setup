@@ -348,7 +348,9 @@ echo -e '\n#caret.line.back=#CCDDFF\n#caret.fore=#FFFFFF' >> $HOME/.SciTEUser.pr
 echo -e '\n#highlight.current.word=1\n#highlight.current.word.indicator=style:straightbox,colour:#FFBBDD,fillalpha:255,under\n#style.*.34=back:#51DAEA' >> $HOME/.SciTEUser.properties
 ```
 
-### xbox one controller (xone)
+### xbox one controller
+
+#### xone
 
 ```bash
 sudo apt install --no-install-recommends dkms
@@ -361,8 +363,7 @@ sudo ./install.sh
 sudo xone-get-firmware.sh
 ```
 
-### xbox one controller (xpadneo)
-
+#### xpadneo
 ```
 sudo apt install --no-install-recommends dkms
 sudo apt install raspberrypi-kernel-headers
