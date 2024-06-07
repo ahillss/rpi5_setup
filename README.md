@@ -212,7 +212,7 @@ sudo chmod +xr $HOME/autostart.sh
 
 ### shortcuts
 
-```bash
+```
 echo -e '"chromium-browser"\nMod4+b\n' >> $HOME/.xbindkeysrc
 echo -e '"thunar"\nMod4+f\n' >> $HOME/.xbindkeysrc
 echo -e '"scite"\nMod4+s\n' >> $HOME/.xbindkeysrc
@@ -224,7 +224,7 @@ echo -e '"scrot ~/Pictures/screenshot_$(date +%Y_%m_%d_%H_%M_%S_%3N).png"\nContr
 
 ### gtk settings
 
-```bash
+```
 mkdir -p  $HOME/.config/gtk-2.0 $HOME/.config/gtk-3.0
 mkdir -p $HOME/Desktop $HOME/Documents $HOME/Downloads $HOME/Pictures $HOME/Videos
 echo 'gtk-recent-files-max-age=0' >> $HOME/.config/gtk-2.0/gtkrc
@@ -235,14 +235,14 @@ echo -e '[Filechooser Settings]\nLocationMode=path-bar\nShowHidden=true\nShowSiz
 
 ### viewnior
 
-```bash
+```
 mkdir -p $HOME/.config/viewnior
 echo -e '[prefs]\nzoom-mode=3\nfit-on-fullscreen=true\nshow-hidden=true\nsmooth-images=true\nconfirm-delete=true\nreload-on-save=true\nshow-menu-bar=false\nshow-toolbar=true\nstart-maximized=false\nslideshow-timeout=5\nauto-resize=false\nbehavior-wheel=2\nbehavior-click=0\nbehavior-modify=2\njpeg-quality=100\npng-compression=9\ndesktop=1\n' > $HOME/.config/viewnior/viewnior.conf
 ```
 
 ### thunar
 
-```bash
+```
 mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
 echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<channel name="thunar" version="1.0">\n\t<property name="last-show-hidden" type="bool"\nvalue="true"/>\n\t<property name="last-view" type="string" value="ThunarDetailsView"/>\n</channel>' >> $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
 ```
@@ -265,11 +265,11 @@ echo 'TerminalEmulator=terminator' >> $HOME/.config/xfce4/helpers.rc
 
 ### i3wm
 
-```bash
+```
 sudo sed -i 's/\(autologin-session=\)\(.*\)/#\1\2\n\1i3/g' /etc/lightdm/lightdm.conf
 ```
 
-```bash
+```
 mkdir -p $HOME/.config/i3
 cp -f /etc/i3/config $HOME/.config/i3/
 
@@ -317,12 +317,11 @@ echo -e '\n[fan]\ncolor=#85E9C1\ncommand=cat /sys/devices/platform/cooling_fan/h
 echo -e '\n[time]\ncommand=date "+%a %d %b, %I:%M %p"\ninterval=5' >> $HOME/.config/i3blocks/config
 echo -e '\n#[battery]\n#color=#58D68D\n#command=cat /sys/class/power_supply/BAT1/status /sys/class/power_supply/BAT1/capacity | tr "\\n" " " | awk '"'"'$1 $2 {printf "<span color=\\"%s\\">\\xe2\\x9a\\xa1</span>%s%%", $1=="Charging"?"yellow":"light grey",$2}'"'"'\n#interval=2\n#markup=pango' >> $HOME/.config/i3blocks/config
 echo -e '\n[volume]\ncommand=amixer -c 0 -M -D pulse get Master | sed "s/[][%]//g" | awk '"'"'/Front Left:.+/ {printf "<span color=\\"%s\\">%s\\xE2\\x99\\xAA</span>\\n",$6=="off"?"#333333":"#FFFFFF",$5}'"'"'\ninterval=5\nmarkup=pango' >> $HOME/.config/i3blocks/config
-
 ```
 
 ### scite
 
-```bash
+```
 echo '' > $HOME/.SciTEUser.properties
 
 echo -e 'check.if.already.open=1\nload.on.activate=1\nquit.on.close.last=1\n' >> $HOME/.SciTEUser.properties
@@ -347,7 +346,6 @@ echo -e '\n###lightmode' >> $HOME/.SciTEUser.properties
 echo -e '\n#selection.back=#CCBDFF\n#selection.alpha=50\n#selection.layer=1' >> $HOME/.SciTEUser.properties
 echo -e '\n#caret.line.back=#CCDDFF\n#caret.fore=#FFFFFF' >> $HOME/.SciTEUser.properties
 echo -e '\n#highlight.current.word=1\n#highlight.current.word.indicator=style:straightbox,colour:#FFBBDD,fillalpha:255,under\n#style.*.34=back:#51DAEA' >> $HOME/.SciTEUser.properties
-
 ```
 
 ### xbox one controller (xone)
@@ -372,11 +370,11 @@ sudo apt install raspberrypi-kernel-headers
 git clone https://github.com/atar-axis/xpadneo.git
 cd xpadneo
 sudo ./install.sh
-
 ```
+
 ### moonlight
 
-```bash
+```
 wget "https://dl.cloudsmith.io/public/moonlight-game-streaming/moonlight-qt/setup.deb.sh"
 distro=raspbian sudo -E bash setup.deb.sh
 sudo apt install moonlight-qt
