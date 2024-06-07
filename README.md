@@ -177,7 +177,7 @@ Add to end use a `Ex_Lat` value from list above (try largest and down from there
 
 `nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE` 
 
-#### change nvme gen (eg gen 1)  (maybe helps)
+#### change nvme gen 1  (maybe helps)
 
 `sudo nano /boot/firmware/config.txt `
 
