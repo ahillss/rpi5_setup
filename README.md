@@ -171,11 +171,13 @@ Get list of exit latency (Ex_Lat) values:
 
 `sudo smartctl -c /dev/nvme0n1`
 
-With `sudo nano /boot/firmware/cmdline.txt`
+Add to end:
 
-Add to end use a `Ex_Lat` value from list above (try largest and down from there):
+`sudo nano /boot/firmware/cmdline.txt`
 
 `nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE` 
+
+Get `Ex_Lat` value from list above (try second largest, then third etc if it keeps disconnecting).
 
 #### change nvme gen 1  (maybe helps)
 
