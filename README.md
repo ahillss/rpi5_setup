@@ -146,15 +146,6 @@ add to the end (for the first plug): ~~`video=HDMI-A-1:-32`~~ `video=HDMI-A-1:19
 
 `lspci | grep -i nvme  | awk '{printf -s $1}' | sudo lspci -vv | grep -w LnkCap`
 
-### change nvme gen (eg gen 1)
-
-Add to `/boot/firmware/config.txt ` (untested):
-
-```
-dtparam=pciex1
-dtparam=pciex1_gen=1
-```
-
 ### disable unecessary nvme services
 
 ```
@@ -174,11 +165,26 @@ add to end: `nvme_core.default_ps_max_latency_us=0 pcie_aspm=off`
 
 `sudo rpi-eeprom-update -a`
 
-#### change max exit latency
+#### change max exit latency (maybe helps)
 
-Get list of exit latency (Ex_Lat) values: `sudo smartctl -c /dev/nvme0n1`
+Get list of exit latency (Ex_Lat) values: 
 
-`sudo nano /boot/firmware/cmdline.txt` add to end: `nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE` using `Ex_Lat` value from list above
+`sudo smartctl -c /dev/nvme0n1`
+
+With `sudo nano /boot/firmware/cmdline.txt`
+
+Add to end use a `Ex_Lat` value from list above (try largest and down from there):
+
+`nvme_core.default_ps_max_latency_us=YOUR_EX_LAT_VALUE` 
+
+#### change nvme gen (eg gen 1)  (maybe helps)
+
+`sudo nano /boot/firmware/config.txt `
+
+```
+dtparam=pciex1
+dtparam=pciex1_gen=1
+```
 
 ## apps
 
