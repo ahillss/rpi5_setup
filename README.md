@@ -147,6 +147,10 @@ add to the end (for the first plug): ~~`video=HDMI-A-1:-32`~~ `video=HDMI-A-1:19
 
 `sudo smartctl -a /dev/nvme0n1`
 
+### get nvme model
+
+`sudo nvme list`
+
 ### get nvme lnkcap info
 
 `lspci | grep -i nvme  | awk '{printf -s $1}' | sudo lspci -vv | grep -w LnkCap`
@@ -294,6 +298,8 @@ sed -i '/^bar {$/ a\\t#mode hide\n\t#hidden_state hide\n\tmodifier Mod1' $HOME/.
 sed -i '/^bar {$/ a\\t#tray_output primary' $HOME/.config/i3/config
 sed -i '/^# kill focused window/abindsym Mod1+Shift+x exec xdotool getwindowfocus windowkill' $HOME/.config/i3/config
 sed -i 's/^\(font pango:.*\)/#\1\nfont pango:DejaVu Sans 18/g'  $HOME/.config/i3/config
+sed -i 's/^\(bindsym Mod1+r.*\)/#\1/g'  $HOME/.config/i3/config
+
 
 echo 'bindsym Mod1+Shift+h bar mode toggle' >> $HOME/.config/i3/config
 echo -e '\n#\nworkspace_layout tabbed\ndefault_orientation vertical' >> $HOME/.config/i3/config
