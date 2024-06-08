@@ -260,7 +260,8 @@ echo -e '[prefs]\nzoom-mode=3\nfit-on-fullscreen=true\nshow-hidden=true\nsmooth-
 
 ```
 mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
-echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<channel name="thunar" version="1.0">\n\t<property name="last-show-hidden" type="bool"\nvalue="true"/>\n\t<property name="last-view" type="string" value="ThunarDetailsView"/>\n</channel>' >> $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
+echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<channel name="thunar" version="1.0">\n  <property name="last-view" type="string" value="ThunarDetailsView"/>\n  <property name="misc-show-delete-action" type="bool" value="true"/>\n
+  <property name="misc-parallel-copy-mode" type="string" value="THUNAR_PARALLEL_COPY_MODE_NEVER"/>\n  <property name="last-show-hidden" type="bool" value="true"/>\n  <property name="last-view" type="string" value="ThunarDetailsView"/>\n</channel>' >> $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
 ```
 
 ### vlc
@@ -299,7 +300,6 @@ sed -i '/^bar {$/ a\\t#tray_output primary' $HOME/.config/i3/config
 sed -i '/^# kill focused window/abindsym Mod1+Shift+x exec xdotool getwindowfocus windowkill' $HOME/.config/i3/config
 sed -i 's/^\(font pango:.*\)/#\1\nfont pango:DejaVu Sans 18/g'  $HOME/.config/i3/config
 sed -i 's/^\(bindsym Mod1+r.*\)/#\1/g'  $HOME/.config/i3/config
-
 
 echo 'bindsym Mod1+Shift+h bar mode toggle' >> $HOME/.config/i3/config
 echo -e '\n#\nworkspace_layout tabbed\ndefault_orientation vertical' >> $HOME/.config/i3/config
