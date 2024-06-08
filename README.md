@@ -61,9 +61,7 @@ tmpfs /home/YOUR_USER_NAME/.cache tmpfs nodev,nosuid,mode=1777 0 0
 
 `sudo nano /etc/dphys-swapfile`
 
-Set:
-
-`CONF_SWAPSIZE=0`
+Set: `CONF_SWAPSIZE=0`
 
 
 ### Fix keyboard (eg hash key is pound symbol)
@@ -74,7 +72,7 @@ Call `sudo raspi-config` => `Localisation Options` => `Keyboard`
 
 `sudo rpi-eeprom-config -e`
 
-change `POWER_OFF_ON_HALT=0` to `POWER_OFF_ON_HALT=1`
+Set `POWER_OFF_ON_HALT=1`
 
 
 ### set speeds for temps
@@ -110,7 +108,7 @@ full: `pinctrl FAN_PWM op dl`
 auto: `pinctrl FAN_PWM a0`
 
 
-### disable wifi, bluetooth (untested)
+### disable wifi, bluetooth
 
 `sudo nano /boot/firmware/config.txt`
 
