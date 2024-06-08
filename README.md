@@ -57,11 +57,18 @@ tmpfs /var/tmp tmpfs nodev,nosuid,mode=1777 0 0
 
 tmpfs /home/YOUR_USER_NAME/.cache tmpfs nodev,nosuid,mode=1777 0 0
 ```
+### Disable swap
+
+`sudo nano /etc/dphys-swapfile`
+
+Set:
+
+`CONF_SWAPSIZE=0`
+
 
 ### Fix keyboard (eg hash key is pound symbol)
 
 Call `sudo raspi-config` => `Localisation Options` => `Keyboard`
-
 
 ### Reduce power when turned off
 
@@ -159,7 +166,7 @@ sudo systemctl disable nvmefc-boot-connections.service
 
 `sudo nano /boot/firmware/cmdline.txt`
 
-add to end: `nvme_core.default_ps_max_latency_us=0 pcie_aspm=off`
+add to end: `pcie_aspm=off nvme_core.default_ps_max_latency_us=0`
 
 #### update firmware
 
@@ -317,7 +324,7 @@ echo -e '\n[cpu_hertz]\ncolor=#FFBB66\ncommand=find /sys/devices/system/cpu/cpu[
 echo -e '\n[memory_free]\ncolor=#EEFF88\ncommand=awk '"'"'/MemAvailable/ {printf("%d\\xcb\\x96\\n", ($2/1000))}'"'"' /proc/meminfo\ninterval=2' >> $HOME/.config/i3blocks/config
 echo -e '\n#[memory_used]\n#color=#FFDDCC\n#command=awk '"'"'/MemTotal|MemAvailable/ {print $2}'"'"' /proc/meminfo | paste -sd'"'"' '"'"' | awk '"'"'{printf "%d\\xcb\\x97\\n",($1-$2)/1000}'"'"'\n#interval=2' >> $HOME/.config/i3blocks/config
 echo -e '\n#[swap_free]\n#command=awk '"'"'/SwapTotal|SwapFree/ {print $2}'"'"' /proc/meminfo | paste -sd'"'"' '"'"' | awk '"'"'{printf "<span color=\\"%s\\">%d\\xcb\\x96</span>\\n",$1=="0"?"#555555":"#FFDDCC",$2/1000}'"'"'\n#interval=2\n#markup=pango' >> $HOME/.config/i3blocks/config
-echo -e '\n[swap_used]\ncommand=awk '"'"'/SwapTotal|SwapFree/ {print $2}'"'"' /proc/meminfo | paste -sd'"'"' '"'"' | awk '"'"'{printf "<span color=\\"%s\\">%d\\xcb\\x97</span>\\n",$1=="0"?"#555555":"#FFDDCC",($1-$2)/1000}'"'"'\ninterval=2\nmarkup=pango' >> $HOME/.config/i3blocks/config
+echo -e '\n#[swap_used]\n#command=awk '"'"'/SwapTotal|SwapFree/ {print $2}'"'"' /proc/meminfo | paste -sd'"'"' '"'"' | awk '"'"'{printf "<span color=\\"%s\\">%d\\xcb\\x97</span>\\n",$1=="0"?"#555555":"#FFDDCC",($1-$2)/1000}'"'"'\n#interval=2\n#markup=pango' >> $HOME/.config/i3blocks/config
 echo -e '\n[temp]\ncolor=#85C1E9\ncommand=cat /sys/class/thermal/thermal_zone*/temp | awk '"'"'$1 {printf "%.0f\\xc2\\xb0 ",$1/1000}'"'"'|awk '"'"'$1=$1'"'"'\ninterval=2' >> $HOME/.config/i3blocks/config
 echo -e '\n[fan]\ncolor=#85E9C1\ncommand=cat /sys/devices/platform/cooling_fan/hwmon/*/fan1_input | xargs\ninterval=2' >> $HOME/.config/i3blocks/config
 
