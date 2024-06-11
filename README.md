@@ -9,7 +9,7 @@ Never run `sudo rpi-update`.
 ```bash
 sudo apt update
 sudo apt full-upgrade
-sudo apt install thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter blueman
+sudo apt install thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter blueman gparted
 ```
 
 ### adding additional partitions
@@ -162,6 +162,10 @@ sudo systemctl disable nvmf-autoconnect.service
 sudo systemctl disable nvmefc-boot-connections.service
 ```
 
+### manually run trim
+
+`sudo fstrim -v -a`
+
 ### fix nvme disconnecting
 
 #### disable power management
@@ -259,9 +263,10 @@ echo -e '[prefs]\nzoom-mode=3\nfit-on-fullscreen=true\nshow-hidden=true\nsmooth-
 ### thunar
 
 ```
-mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
+mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml $HOME/.config/Thunar
 echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<channel name="thunar" version="1.0">\n  <property name="last-view" type="string" value="ThunarDetailsView"/>\n  <property name="misc-show-delete-action" type="bool" value="true"/>\n
   <property name="misc-parallel-copy-mode" type="string" value="THUNAR_PARALLEL_COPY_MODE_NEVER"/>\n  <property name="last-show-hidden" type="bool" value="true"/>\n  <property name="last-view" type="string" value="ThunarDetailsView"/>\n</channel>' >> $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
+echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<actions>\n<action>\n	<icon>utilities-terminal</icon>\n	<name>Open Terminal Here</name>\n	<submenu></submenu>\n	<unique-id>1717698787285529-1</unique-id>\n	<command>exo-open --working-directory %f --launch TerminalEmulator</command>\n	<description>Example for a custom action</description>\n	<range></range>\n	<patterns>*</patterns>\n	<startup-notify/>\n	<directories/>\n</action>\n<action>\n	<icon></icon>\n	<name>Bash Run</name>\n	<submenu></submenu>\n	<unique-id>1718111091702025-1</unique-id>\n	<command>terminator -x &apos;bash %f &amp;&amp; (read -t 3 -p &quot;Done, closing in 3 seconds.&quot;; exit 0) || read -n1 -rsp &quot;Failed, press any key.&quot;&apos;</command>\n	<description></description>\n	<range>*</range>\n	<patterns>*</patterns>\n	<other-files/>\n	<text-files/>\n</action>\n<action>\n	<icon></icon>\n	<name>Run</name>\n	<submenu></submenu>\n	<unique-id>1718112833938847-2</unique-id>\n	<command>terminator -x &apos;%f &amp;&amp; (read -t 3 -p &quot;Done, closing in 3 seconds.&quot;; exit 0) || read -n1 -rsp &quot;Failed, press any key.&quot;&apos;</command>\n	<description></description>\n	<range>*</range>\n	<patterns>*</patterns>\n	<other-files/>\n	<text-files/>\n</action>\n</actions>\n' > $HOME/.config/Thunar/uca.xml
 ```
 
 ### vlc
