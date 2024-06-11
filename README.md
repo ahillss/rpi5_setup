@@ -285,7 +285,7 @@ echo -e '[global_config]\n  inactive_color_offset = 1.0\n[keybindings]\n  full_s
 echo 'TerminalEmulator=terminator' >> $HOME/.config/xfce4/helpers.rc
 ```
 
-### i3wm
+### i3
 
 ```
 sudo sed -i 's/\(autologin-session=\)\(.*\)/#\1\2\n\1i3/g' /etc/lightdm/lightdm.conf
@@ -317,8 +317,6 @@ echo 'assign [class="Chromium"] 1' >> $HOME/.config/i3/config
 
 echo -e '\n#\n#exec --no-startup-id ~/runstart.sh' >> $HOME/.config/i3/config
 ```
-
-### i3 blocks
 
 ```
 sed -i 's/\(status_command \)i3status/\1i3blocks/g' $HOME/.config/i3/config
