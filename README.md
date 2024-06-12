@@ -22,8 +22,9 @@ sudo apt install thunar thunar-archive-plugin thunar-media-tags-plugin thunar-vo
 mkdir temp
 cd temp
 
-mkdir -p root home var
+mkdir -p boot root var home
 
+sudo mount /dev/nvme0n1p1 ./boot
 sudo mount /dev/nvme0n1p2 ./root
 sudo mount /dev/nvme0n1p3 ./var
 sudo mount /dev/nvme0n1p4 ./home
@@ -57,6 +58,18 @@ tmpfs /var/tmp tmpfs nodev,nosuid,mode=1777 0 0
 
 tmpfs /home/YOUR_USER_NAME/.cache tmpfs nodev,nosuid,mode=1777 0 0
 ```
+
+7. Optionally add sd card mnts
+```
+sudo mkdir -p ./root/mnt/other_boot ./root/mnt/other_root
+```
+
+Add to fstab
+```
+/dev/mmcblk0p1  /mnt/other_boot   ext4    defaults,noatime,nofail,ro    0 2
+/dev/mmcblk0p2  /mnt/other_root   ext4    defaults,noatime,nofail,ro    0 2
+```
+
 ### Disable swap
 
 `sudo nano /etc/dphys-swapfile`
@@ -178,6 +191,12 @@ add to end: `pcie_aspm=off nvme_core.default_ps_max_latency_us=0`
 
 `sudo rpi-eeprom-update -a`
 
+#### set firmware to latest (not sure if can do from here)
+
+sudo nano `/etc/default/rpi-eeprom-update`
+
+Set `FIRMWARE_RELEASE_STATUS="latest"`
+
 #### change nvme gen 1
 
 `sudo nano /boot/firmware/config.txt `
@@ -210,13 +229,16 @@ Get `Ex_Lat` value from list above (try second largest, then third etc if it kee
 
 ### autostart
 
+This doesn't work from normal desktop image, only on the full desktop image.
+
 ```
 echo -e "\n[autostart]" >> $HOME/.config/wayfire.ini
-echo "xbindkeys=xbindkeys -p" >> $HOME/.config/wayfire.ini
-echo "solaar=solaar -w hide" >> $HOME/.config/wayfire.ini
-echo "unclutter=unclutter -idle 2 -jitter 2 -root" >> $HOME/.config/wayfire.ini
-echo "thunar=thunar --daemon" >> $HOME/.config/wayfire.ini
-echo "blueman=blueman-applet" >> $HOME/.config/wayfire.ini
+echo "0=xbindkeys -p" >> $HOME/.config/wayfire.ini
+echo "1=solaar -w hide" >> $HOME/.config/wayfire.ini
+echo "2=thunar --daemon" >> $HOME/.config/wayfire.ini
+echo "3=blueman-applet" >> $HOME/.config/wayfire.ini
+
+#echo "unclutter=unclutter -idle 2 -jitter 2 -root" >> $HOME/.config/wayfire.ini
 ```
 
 or:
@@ -224,9 +246,9 @@ or:
 ```
 echo "xbindkeys -p &" >> $HOME/autostart.sh
 echo "solaar -w hide &" >> $HOME/autostart.sh
-echo "unclutter -idle 2 -jitter 2 -root &" >> $HOME/autostart.sh
+echo "#unclutter -idle 2 -jitter 2 -root &" >> $HOME/autostart.sh
 echo "thunar --daemon &" >> $HOME/autostart.sh
-echo "blueman-applet &" >> $HOME/autostart.sh
+echo "#blueman-applet &" >> $HOME/autostart.sh
 sudo chmod +xr $HOME/autostart.sh
 ```
 
@@ -315,7 +337,7 @@ echo -e '\n#' >> $HOME/.config/i3/config
 echo 'assign [class="Moonlight"] 3' >> $HOME/.config/i3/config
 echo 'assign [class="Chromium"] 1' >> $HOME/.config/i3/config
 
-echo -e '\n#\n#exec --no-startup-id ~/runstart.sh' >> $HOME/.config/i3/config
+echo -e '\n#\n#exec --no-startup-id ~/autostart.sh' >> $HOME/.config/i3/config
 ```
 
 ```
