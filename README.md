@@ -307,7 +307,7 @@ echo -e '[global_config]\n  inactive_color_offset = 1.0\n[keybindings]\n  full_s
 echo 'TerminalEmulator=terminator' >> $HOME/.config/xfce4/helpers.rc
 ```
 
-### i3
+### i3wm
 
 ```
 sudo sed -i 's/\(autologin-session=\)\(.*\)/#\1\2\n\1i3/g' /etc/lightdm/lightdm.conf
@@ -339,6 +339,8 @@ echo 'assign [class="Chromium"] 1' >> $HOME/.config/i3/config
 
 echo -e '\n#\n#exec --no-startup-id ~/autostart.sh' >> $HOME/.config/i3/config
 ```
+
+### i3blocks
 
 ```
 sed -i 's/\(status_command \)i3status/\1i3blocks/g' $HOME/.config/i3/config
@@ -389,6 +391,21 @@ echo -e '\n###lightmode' >> $HOME/.SciTEUser.properties
 echo -e '\n#selection.back=#CCBDFF\n#selection.alpha=50\n#selection.layer=1' >> $HOME/.SciTEUser.properties
 echo -e '\n#caret.line.back=#CCDDFF\n#caret.fore=#FFFFFF' >> $HOME/.SciTEUser.properties
 echo -e '\n#highlight.current.word=1\n#highlight.current.word.indicator=style:straightbox,colour:#FFBBDD,fillalpha:255,under\n#style.*.34=back:#51DAEA' >> $HOME/.SciTEUser.properties
+```
+
+### chromium
+
+```
+mkdir -p /$HOME/.config/chromium/Default
+
+echo '{"browser":{"enabled_labs_experiments":["enable-force-dark@6"],"first_run_finished":true}}' > "/$HOME/.config/chromium/Local State"
+
+sudo cp /etc/chromium/master_preferences /etc/chromium/master_preferences.old
+
+sudo sed -i 'N;/\n}/{s//,&/;P;s/".*,/"bookmark_bar":\{"show_on_all_tabs": true\}/};P;D' /etc/chromium/master_preferences
+sudo sed -i 'N;/\n}/{s//,&/;P;s/".*,/"session" : \{ "restore_on_startup" : 1 \}/};P;D' /etc/chromium/master_preferences
+sudo sed -i 'N;/\n}/{s//,&/;P;s/".*,/"browser" : \{ "theme": \{ "color_scheme": 2 \} \}/};P;D' /etc/chromium/master_preferences
+sudo sed -i 'N;/\n}/{s//,&/;P;s/".*,/"first_run_tabs":["chrome:\/\/newtab"]/};P;D' /etc/chromium/master_preferences
 ```
 
 ### xbox one controller
