@@ -44,6 +44,8 @@
 
 * recently nvme stopped working when inside the case (doesn't seem to be a problem with the ribbon cable, might be shorting?)
 
+# Other
+
 ## NVME Drives
 
 * better to use cheaper ones in case you have compatibility problems
