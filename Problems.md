@@ -78,7 +78,7 @@
 
 * USB 3 can cause static/buzz? (use USB 2 instead)
 
-* about 5% of the time on boot, it doesn't initialise properly, but can fix with: `sudo usbreset "Sound Blaster Play! 4"`
+* about 5% of the time it fails to initialise on boot, but can fix with: `sudo usbreset "Sound Blaster Play! 4"`
 
 
 ## Misc
