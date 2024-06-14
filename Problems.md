@@ -44,13 +44,17 @@
 
 * recently nvme stopped working when inside the case (doesn't seem to be a problem with the ribbon cable, might be shorting?)
 
-## WD Blue SN580
+## NVME Drives
+
+* better to use cheaper ones in case you have compatibility problems
+
+### WD Blue SN580
 
 * with power saving enabled can idle at around 40 degrees, but when off it idles at 60 to 70 degrees
 
 * had disconnecting issues (when nvme gen not set to 1?)
 
-## Patriot p300 (non us version)
+### Patriot p300 (non us version)
 
 * with power savings disabled, idles around 40 degrees
 
