@@ -52,11 +52,11 @@
 
 ### WD Blue SN580
 
-* with power saving enabled can idle at around 40 degrees, but when off it idles at 60 to 70 degrees
+* with power saving enabled can idle at around 40 degrees, but when off it idles at 60 (but to 70 degrees?)
 
 * had disconnecting issues (when nvme gen not set to 1?)
 
-### Patriot p300 (non us version)
+### Patriot P300 (non us version)
 
 * with power savings disabled, idles around 40 degrees
 
