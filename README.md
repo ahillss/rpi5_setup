@@ -279,9 +279,13 @@ echo -e '"scrot ~/Pictures/screenshot_$(date +%Y_%m_%d_%H_%M_%S_%3N).png"\nContr
 ```
 mkdir -p  $HOME/.config/gtk-2.0 $HOME/.config/gtk-3.0
 mkdir -p $HOME/Desktop $HOME/Documents $HOME/Downloads $HOME/Pictures $HOME/Videos
+
 echo 'gtk-recent-files-max-age=0' >> $HOME/.config/gtk-2.0/gtkrc
+
 echo -e '[Settings]\ngtk-recent-files-max-age=0\ngtk-recent-files-limit=0' > $HOME/.config/gtk-3.0/settings.ini
-echo -e "file://$HOME/Documents Documents\nfile://$HOME/Downloads Downloads\nfile://$HOME/Pictures Pictures\nfile://$HOME/Videos Videos\nfile:///tmp tmp" >> $HOME/.config/gtk-3.0/bookmarks	
+echo -e 'gtk-theme-name=Adwaita-dark\ngtk-icon-theme-name=PiXflat\ngtk-cursor-theme-name=Adwaita\ngtk-xft-antialias=1\ngtk-xft-hinting=1\ngtk-xft-hintstyle=hintfull\ngtk-font-name=Sans 14' >> $HOME/.config/gtk-3.0/settings.ini
+
+echo -e "file://$HOME/Documents Documents\nfile://$HOME/Downloads Downloads\nfile://$HOME/Pictures Pictures\nfile://$HOME/Videos Videos\nfile:///tmp tmp" >> $HOME/.config/gtk-3.0/bookmarks
 echo -e '[Filechooser Settings]\nLocationMode=path-bar\nShowHidden=true\nShowSizeColumn=true\nSortColumn=name\nSortOrder=ascending\nStartupMode=recent' > $HOME/.config/gtk-2.0/gtkfilechooser.ini
 ```
 
@@ -300,16 +304,6 @@ mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml $HOME/.config/Thunar
 echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<channel name="thunar" version="1.0">\n  <property name="last-view" type="string" value="ThunarDetailsView"/>\n  <property name="misc-show-delete-action" type="bool" value="true"/>\n  <property name="misc-parallel-copy-mode" type="string" value="THUNAR_PARALLEL_COPY_MODE_NEVER"/>\n  <property name="last-show-hidden" type="bool" value="true"/>\n  <property name="last-view" type="string" value="ThunarDetailsView"/>\n</channel>' >> $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
 
 echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<actions>\n<action>\n	<icon>utilities-terminal</icon>\n	<name>Open Terminal Here</name>\n	<submenu></submenu>\n	<unique-id>1717698787285529-1</unique-id>\n	<command>exo-open --working-directory %f --launch TerminalEmulator</command>\n	<description>Example for a custom action</description>\n	<range></range>\n	<patterns>*</patterns>\n	<startup-notify/>\n	<directories/>\n</action>\n<action>\n	<icon></icon>\n	<name>Bash Run</name>\n	<submenu></submenu>\n	<unique-id>1718111091702025-1</unique-id>\n	<command>terminator -x &apos;bash %f &amp;&amp; (read -t 3 -p &quot;Done, closing in 3 seconds.&quot;; exit 0) || read -n1 -rsp &quot;Failed, press any key.&quot;&apos;</command>\n	<description></description>\n	<range>*</range>\n	<patterns>*</patterns>\n	<other-files/>\n	<text-files/>\n</action>\n<action>\n	<icon></icon>\n	<name>Run</name>\n	<submenu></submenu>\n	<unique-id>1718112833938847-2</unique-id>\n	<command>terminator -x &apos;%f &amp;&amp; (read -t 3 -p &quot;Done, closing in 3 seconds.&quot;; exit 0) || read -n1 -rsp &quot;Failed, press any key.&quot;&apos;</command>\n	<description></description>\n	<range>*</range>\n	<patterns>*</patterns>\n	<other-files/>\n	<text-files/>\n</action>\n</actions>\n' > $HOME/.config/Thunar/uca.xml
-```
-
-### themes
-
-```
-mkdir -p $HOME/.config/xsettingsd $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
-
-echo -e '<?xml version="1.0" encoding="UTF-8"?>\n\n<channel name="xsettings" version="1.0">\n  <property name="Net" type="empty">\n    <property name="ThemeName" type="string" value="Adwaita-dark"/>\n  </property>\n</channel>' > $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml
-
-echo -e 'Net/ThemeName "PiXnoir"\nNet/IconThemeName "PiXflat"\nNet/EnableEventSounds 1\nNet/EnableInputFeedbackSounds 1\nGtk/FontName "PibotoLt 14"\nGtk/ToolbarStyle 3\nGtk/ButtonImages 0\nGtk/MenuImages 0\nGtk/CursorThemeSize 24\nGtk/AutoMnemonics 1\nGtk/EnableMnemonics 1\nGtk/ColorScheme "selected_bg_color:#76747C\nselected_fg_color:#F6F5F4\nbar_bg_color:#3D3E3F\nbar_fg_color:#DEDDDA\n"\nGtk/CursorThemeName "PiXflat"\nGtk/ToolbarIconSize 3\nGtk/IconSizes "gtk-large-toolbar=24,24"\nXft/Antialias 1\nXft/Hinting 1\nXft/HintStyle "hintfull"\nXft/RGBA "rgb"' > $HOME/.config/xsettingsd/xsettingsd.conf
 ```
 
 ### vlc
