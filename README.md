@@ -413,21 +413,22 @@ echo -e '\n#highlight.current.word=1\n#highlight.current.word.indicator=style:st
 ### chromium
 
 ```
-mkdir -p /$HOME/.config/chromium/Default
-
-echo '{"browser":{"enabled_labs_experiments":["enable-force-dark@6"],"first_run_finished":true}}' > "/$HOME/.config/chromium/Local State"
-
 sudo cp /etc/chromium/master_preferences /etc/chromium/master_preferences.old
+```
 
+```
 sudo sed -i 'N;/\n}/{s//,&/;P;s/".*,/"bookmark_bar":\{"show_on_all_tabs": true\}/};P;D' /etc/chromium/master_preferences
 sudo sed -i 'N;/\n}/{s//,&/;P;s/".*,/"session" : \{ "restore_on_startup" : 1 \}/};P;D' /etc/chromium/master_preferences
 sudo sed -i 'N;/\n}/{s//,&/;P;s/".*,/"browser" : \{ "theme": \{ "color_scheme": 2 \} \}/};P;D' /etc/chromium/master_preferences
 sudo sed -i 'N;/\n}/{s//,&/;P;s/".*,/"first_run_tabs":["chrome:\/\/newtab"]/};P;D' /etc/chromium/master_preferences
 ```
 
-### xbox one controller
+```
+mkdir -p /$HOME/.config/chromium/Default
+echo '{"browser":{"enabled_labs_experiments":["enable-force-dark@6"],"first_run_finished":true}}' > "/$HOME/.config/chromium/Local State"
+```
 
-#### xone
+### xbox one controller
 
 ```bash
 sudo apt install --no-install-recommends dkms
@@ -438,16 +439,6 @@ git clone https://github.com/medusalix/xone
 cd xone
 sudo ./install.sh
 sudo xone-get-firmware.sh
-```
-
-#### xpadneo
-```
-sudo apt install --no-install-recommends dkms
-sudo apt install raspberrypi-kernel-headers
-
-git clone https://github.com/atar-axis/xpadneo.git
-cd xpadneo
-sudo ./install.sh
 ```
 
 ### moonlight
