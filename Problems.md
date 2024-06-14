@@ -18,27 +18,27 @@
 
 * while normal desktop computers do ths too, the noise from the small fan is loud
 
-* doesn't seemt to always happen (maybe when the pi has been turned off at the wall?)
+* doesn't seem to always happen (maybe when the pi has been turned off at the wall?)
 
 ## Geekworm X1002 (nvme board)
 
 * when `nvme_core.default_ps_max_latency_us` is enabled, the board emits a high pitched whining (due to fluctuating power levels?)
 
-* four spots on the side of the board where if touched making a weird metal brush sound, instead of the smooth plastic or whatever you'd expect
+* four spots on the side of the board where if touched making a weird metal brush sound (instead of the smooth plastic feel you'd expect)
 
 ## Geekworm P580 (case)
 
 * doesn't come with any kind of a button, only a cut out (annoying to use)
 
-* green/red power led from pi and the blue led from the nvme board shine too bright through the case (could use white electrical tape over the leds to diffuse them?)
+* green/red power led from pi and the blue led from the nvme board shine too brightly through the case (could use white electrical tape over the leds to diffuse them?)
 
-* slight gap between lid and case, but not a big deal
+* slight gap between sides of the lid and case, but not a big deal
 
 * cannot remove sd card, have to completely remove the pi to do so (but can be inserted)
 
 * the case is a bit wider than necessary (probably for the older pi form factor)
 
-* for the ribbon cable between the pi and nvme, there is an adequate gap, but the cable going into the pi had to bend around a bit, but seems to be fine
+* for the ribbon cable between the pi and nvme, there is an adequate gap, but the cable going into the pi had to bend around a bit, but seems to work fine
 
 * on the inside of the case there are spots where they missed with the paint
 
@@ -47,6 +47,8 @@
 ## WD Blue SN580
 
 * with power saving enabled can idle at around 40 degrees, but when off it idles at 60 to 70 degrees
+
+* had disconnecting issues (when nvme gen not set to 1?)
 
 ## Patriot p300 (non us version)
 
