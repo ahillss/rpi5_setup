@@ -120,7 +120,6 @@ full: `pinctrl FAN_PWM op dl`
 
 auto: `pinctrl FAN_PWM a0`
 
-
 ### disable wifi, bluetooth
 
 `sudo nano /boot/firmware/config.txt`
@@ -143,6 +142,17 @@ Add `noaudio` to end of `dtoverlay=vc4-kms-v3d`: `dtoverlay=vc4-kms-v3d,noaudio`
 `sudo nano /boot/firmware/cmdline.txt`
 
 add to the end (for the first plug): ~~`video=HDMI-A-1:-32`~~ `video=HDMI-A-1:1920x1080M-32@60`
+
+### disable ethernet leds
+
+`sudo nano /boot/firmware/config.txt`
+
+Add:
+
+```
+dtparam=eth_led0=4
+dtparam=eth_led1=4
+```
 
 ## nvme
 
@@ -286,9 +296,20 @@ echo -e '[prefs]\nzoom-mode=3\nfit-on-fullscreen=true\nshow-hidden=true\nsmooth-
 
 ```
 mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml $HOME/.config/Thunar
-echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<channel name="thunar" version="1.0">\n  <property name="last-view" type="string" value="ThunarDetailsView"/>\n  <property name="misc-show-delete-action" type="bool" value="true"/>\n
-  <property name="misc-parallel-copy-mode" type="string" value="THUNAR_PARALLEL_COPY_MODE_NEVER"/>\n  <property name="last-show-hidden" type="bool" value="true"/>\n  <property name="last-view" type="string" value="ThunarDetailsView"/>\n</channel>' >> $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
+
+echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<channel name="thunar" version="1.0">\n  <property name="last-view" type="string" value="ThunarDetailsView"/>\n  <property name="misc-show-delete-action" type="bool" value="true"/>\n  <property name="misc-parallel-copy-mode" type="string" value="THUNAR_PARALLEL_COPY_MODE_NEVER"/>\n  <property name="last-show-hidden" type="bool" value="true"/>\n  <property name="last-view" type="string" value="ThunarDetailsView"/>\n</channel>' >> $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
+
 echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<actions>\n<action>\n	<icon>utilities-terminal</icon>\n	<name>Open Terminal Here</name>\n	<submenu></submenu>\n	<unique-id>1717698787285529-1</unique-id>\n	<command>exo-open --working-directory %f --launch TerminalEmulator</command>\n	<description>Example for a custom action</description>\n	<range></range>\n	<patterns>*</patterns>\n	<startup-notify/>\n	<directories/>\n</action>\n<action>\n	<icon></icon>\n	<name>Bash Run</name>\n	<submenu></submenu>\n	<unique-id>1718111091702025-1</unique-id>\n	<command>terminator -x &apos;bash %f &amp;&amp; (read -t 3 -p &quot;Done, closing in 3 seconds.&quot;; exit 0) || read -n1 -rsp &quot;Failed, press any key.&quot;&apos;</command>\n	<description></description>\n	<range>*</range>\n	<patterns>*</patterns>\n	<other-files/>\n	<text-files/>\n</action>\n<action>\n	<icon></icon>\n	<name>Run</name>\n	<submenu></submenu>\n	<unique-id>1718112833938847-2</unique-id>\n	<command>terminator -x &apos;%f &amp;&amp; (read -t 3 -p &quot;Done, closing in 3 seconds.&quot;; exit 0) || read -n1 -rsp &quot;Failed, press any key.&quot;&apos;</command>\n	<description></description>\n	<range>*</range>\n	<patterns>*</patterns>\n	<other-files/>\n	<text-files/>\n</action>\n</actions>\n' > $HOME/.config/Thunar/uca.xml
+```
+
+### themes
+
+```
+mkdir -p $HOME/.config/xsettingsd $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
+
+echo -e '<?xml version="1.0" encoding="UTF-8"?>\n\n<channel name="xsettings" version="1.0">\n  <property name="Net" type="empty">\n    <property name="ThemeName" type="string" value="Adwaita-dark"/>\n  </property>\n</channel>' > $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml
+
+echo -e 'Net/ThemeName "PiXnoir"\nNet/IconThemeName "PiXflat"\nNet/EnableEventSounds 1\nNet/EnableInputFeedbackSounds 1\nGtk/FontName "PibotoLt 14"\nGtk/ToolbarStyle 3\nGtk/ButtonImages 0\nGtk/MenuImages 0\nGtk/CursorThemeSize 24\nGtk/AutoMnemonics 1\nGtk/EnableMnemonics 1\nGtk/ColorScheme "selected_bg_color:#76747C\nselected_fg_color:#F6F5F4\nbar_bg_color:#3D3E3F\nbar_fg_color:#DEDDDA\n"\nGtk/CursorThemeName "PiXflat"\nGtk/ToolbarIconSize 3\nGtk/IconSizes "gtk-large-toolbar=24,24"\nXft/Antialias 1\nXft/Hinting 1\nXft/HintStyle "hintfull"\nXft/RGBA "rgb"' > $HOME/.config/xsettingsd/xsettingsd.conf
 ```
 
 ### vlc
@@ -338,6 +359,8 @@ echo 'assign [class="Moonlight"] 3' >> $HOME/.config/i3/config
 echo 'assign [class="Chromium"] 1' >> $HOME/.config/i3/config
 
 echo -e '\n#\n#exec --no-startup-id ~/autostart.sh' >> $HOME/.config/i3/config
+
+echo 'bindsym Mod1+Shift+s exec sleep 1 && xset dpms force off' >> $HOME/.config/i3/config
 ```
 
 ### i3blocks
@@ -351,8 +374,8 @@ mkdir -p $HOME/.config/i3blocks
 echo -n '' >  $HOME/.config/i3blocks/config
 
 echo -e '\n[cpu_load]\ncolor=#FFFFFF\ncommand=mpstat -P ALL 1 1 |  awk '"'"'/Average:/ && $2 ~ /[0-9]/ {printf "%.0f\\x25 ",100-$12}'"'"'|xargs\ninterval=10' >> $HOME/.config/i3blocks/config
-echo -e '\n[cpu_hertz]\ncolor=#FFBB66\ncommand=find /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_cur_freq  -type f |xargs cat | awk '"'"'{printf "%.0f ",$1/100000}'"'"'|xargs\ninterval=5' >> $HOME/.config/i3blocks/config
-echo -e '\n[memory_free]\ncolor=#EEFF88\ncommand=awk '"'"'/MemAvailable/ {printf("%d\\xcb\\x96\\n", ($2/1000))}'"'"' /proc/meminfo\ninterval=2' >> $HOME/.config/i3blocks/config
+echo -e '\n[cpu_hertz]\ncolor=#E9C5A1\ncommand=find /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_cur_freq  -type f |xargs cat | awk '"'"'{printf "%.0f ",$1/100000}'"'"'|xargs\ninterval=5' >> $HOME/.config/i3blocks/config
+echo -e '\n[memory_free]\ncolor=#E1E9A5\ncommand=awk '"'"'/MemAvailable/ {printf("%d\\xcb\\x96\\n", ($2/1000))}'"'"' /proc/meminfo\ninterval=2' >> $HOME/.config/i3blocks/config
 echo -e '\n#[memory_used]\n#color=#FFDDCC\n#command=awk '"'"'/MemTotal|MemAvailable/ {print $2}'"'"' /proc/meminfo | paste -sd'"'"' '"'"' | awk '"'"'{printf "%d\\xcb\\x97\\n",($1-$2)/1000}'"'"'\n#interval=2' >> $HOME/.config/i3blocks/config
 echo -e '\n#[swap_free]\n#command=awk '"'"'/SwapTotal|SwapFree/ {print $2}'"'"' /proc/meminfo | paste -sd'"'"' '"'"' | awk '"'"'{printf "<span color=\\"%s\\">%d\\xcb\\x96</span>\\n",$1=="0"?"#555555":"#FFDDCC",$2/1000}'"'"'\n#interval=2\n#markup=pango' >> $HOME/.config/i3blocks/config
 echo -e '\n#[swap_used]\n#command=awk '"'"'/SwapTotal|SwapFree/ {print $2}'"'"' /proc/meminfo | paste -sd'"'"' '"'"' | awk '"'"'{printf "<span color=\\"%s\\">%d\\xcb\\x97</span>\\n",$1=="0"?"#555555":"#FFDDCC",($1-$2)/1000}'"'"'\n#interval=2\n#markup=pango' >> $HOME/.config/i3blocks/config
