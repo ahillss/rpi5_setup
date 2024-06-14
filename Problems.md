@@ -72,6 +72,15 @@
 
 * not sure how bad the full covering top hats are for dealing with heat from the pi
 
+## Sound Blaster Play! 4
+
+* works without any setup
+
+* USB 3 can cause static/buzz? (use USB 2 instead)
+
+* about 5% of the time on boot, it doesn't initialise properly, but can fix with: `sudo usbreset "Sound Blaster Play! 4"`
+
+
 ## Misc
 
 * had to change vlc video output to xvideo xcb for it work in fullscreen
