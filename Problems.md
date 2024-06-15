@@ -44,6 +44,10 @@
 
 * recently nvme stopped working when inside the case (doesn't seem to be a problem with the ribbon cable, might be shorting?)
 
+## Geekworm Active Cooler H505 (Armor Cooler)
+
+* fan gives of a plastic smell
+
 # Other
 
 ## NVME Drives
@@ -52,7 +56,7 @@
 
 ### WD Blue SN580
 
-* with power saving enabled can idle at around 40 degrees, but when off it idles at 60 (but to 70 degrees?)
+* with power saving enabled can idle at around 40 degrees, but when off it idles at 60 (sometimes up to 65 degrees?)
 
 * had disconnecting issues (when nvme gen not set to 1?)
 

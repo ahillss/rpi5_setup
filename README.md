@@ -262,6 +262,19 @@ echo "#blueman-applet &" >> $HOME/autostart.sh
 sudo chmod +xr $HOME/autostart.sh
 ```
 
+### change dpi
+
+```
+echo -e "\n[screen]" >> $HOME/.config/wayfire.ini
+echo "scale = 1.5" >> $HOME/.config/wayfire.ini
+```
+
+or:
+
+```
+echo 'Xft.dpi: 150' >> $HOME/.Xresources
+```
+
 ### shortcuts
 
 ```
