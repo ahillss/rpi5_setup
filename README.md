@@ -6,10 +6,10 @@ Never run `sudo rpi-update`.
 
 ### installs
 
-```bash
+```
 sudo apt update
 sudo apt full-upgrade
-sudo apt install thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter blueman gparted pavucontrol
+sudo apt install thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter blueman gparted pavucontrol transmission-remote-gtk
 ```
 
 ### adding additional partitions
@@ -154,6 +154,24 @@ dtparam=eth_led0=4
 dtparam=eth_led1=4
 ```
 
+### disable power led?
+
+`sudo nano /boot/firmware/config.txt`
+
+Add:
+
+```
+
+#dtparam=pwr_led_trigger=none
+#dtparam=act_led_trigger=default-on
+
+dtparam=pwr_led_trigger=default-on
+dtparam=act_led_trigger=none
+
+dtparam=pwr_led_activelow=off
+dtparam=act_led_activelow=off
+```
+
 ## nvme
 
 ### install nvme tools
@@ -267,12 +285,14 @@ sudo chmod +xr $HOME/autostart.sh
 ```
 echo -e "\n[screen]" >> $HOME/.config/wayfire.ini
 echo "scale = 1.5" >> $HOME/.config/wayfire.ini
+echo 'export QT_SCALE_FACTOR=0.7' >> $HOME/.profile
 ```
 
 or:
 
 ```
 echo 'Xft.dpi: 150' >> $HOME/.Xresources
+echo 'export QT_SCALE_FACTOR=0.7' >> $HOME/.profile
 ```
 
 ### shortcuts
@@ -321,7 +341,7 @@ echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<actions>\n<action>\n	<icon>uti
 
 ### vlc
 
-```bash
+```
 mkdir -p $HOME/.config/vlc
 echo -e "[qt4]\nqt-recentplay=0\nqt-privacy-ask=0\n\n[core]\nvideo-title-show=0\nplay-and-exit=1\none-instance-when-started-from-file=0\nsnapshot-path=$HOME/Pictures\nsnapshot-prefix=\$N_[\$T]_\nsnapshot-sequential=1\nkey-vol-up=Ctrl+Up\nkey-vol-down=Ctrl+Down\nkey-vol-mute=m\nkey-stop=\nkey-snapshot=s\nstats=0\nstereo-mode=1\nvout=xcb_xv" > $HOME/.config/vlc/vlcrc
 echo -e '[MainWindow]\nstatus-bar-visible=true' > $HOME/.config/vlc/vlc-qt-interface.conf
@@ -329,7 +349,7 @@ echo -e '[MainWindow]\nstatus-bar-visible=true' > $HOME/.config/vlc/vlc-qt-inter
 
 ### terminator
 
-```bash
+```
 mkdir -p $HOME/.config/terminator $HOME/.config/xfce4
 echo -e '[global_config]\n  inactive_color_offset = 1.0\n[keybindings]\n  full_screen = ""\n   help = ""\n[profiles]\n [[default]]\n  show_titlebar = False\n  scrollbar_position = disabled' > $HOME/.config/terminator/config
 echo 'TerminalEmulator=terminator' >> $HOME/.config/xfce4/helpers.rc
@@ -443,7 +463,7 @@ echo '{"browser":{"enabled_labs_experiments":["enable-force-dark@6"],"first_run_
 
 ### xbox one controller
 
-```bash
+```
 sudo apt install --no-install-recommends dkms
 sudo apt-get -y install cabextract
 
