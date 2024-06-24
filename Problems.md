@@ -26,6 +26,8 @@
 
 * four spots on the side of the board where if touched making a weird metal brush sound (instead of the smooth plastic feel you'd expect)
 
+* the ribbon cable will short against metal cases, so you need to place electrical tape between them
+
 ## Geekworm P580 (case)
 
 * doesn't come with any kind of a button, only a cut out (annoying to use)
@@ -34,19 +36,17 @@
 
 * slight gap between sides of the lid and case, but not a big deal
 
-* cannot remove sd card, have to completely remove the pi to do so (but can be inserted)
+* sd card can be inserted but not remove, have to take the pi out of the case to do so
 
-* the case is a bit wider than necessary (probably for the older pi form factor)
+* the case is a bit wider than necessary (older pi form factor?)
 
 * for the ribbon cable between the pi and nvme, there is an adequate gap, but the cable going into the pi had to bend around a bit, but seems to work fine
 
 * on the inside of the case there are spots where they missed with the paint
 
-* recently nvme stopped working when inside the case (doesn't seem to be a problem with the ribbon cable, might be shorting?)
-
 ## Geekworm Active Cooler H505 (Armor Cooler)
 
-* fan gives of a plastic smell
+* fan gives off a plastic smell
 
 # Other
 
@@ -72,7 +72,7 @@
 
 * ribbon cable from the pi doesn't need to bend so much
 
-* the Geekworm x1001 has a gap for heat and air to pass through from/to the pi
+* the Geekworm x1001 and M901 has a gap for heat and air to pass through from/to the pi
 
 * not sure how bad the full covering top hats are for dealing with heat from the pi
 
