@@ -30,6 +30,8 @@
 
 * no replacement PCIe FFC cable available for sale
 
+* pain to access/remove nvme drive, have to take whole thing out of the case
+
 ## Geekworm P580 (case)
 
 * doesn't come with any kind of a button, only a cut out (annoying to use)
@@ -44,7 +46,7 @@
 
 * for the ribbon cable between the pi and nvme, there is an adequate gap, but the cable going into the pi had to bend around a bit, but seems to work fine
 
-* on the inside of the case there are spots where they missed with the paint
+* on the inside of the case there are slight spots where they missed with the paint
 
 ## Geekworm Active Cooler H505 (Armor Cooler)
 
@@ -77,6 +79,8 @@
 * the Geekworm x1001 and M901 has a gap for heat and air to pass through from/to the pi
 
 * not sure how bad the full covering top hats are for dealing with heat from the pi
+
+* easier access to nvme drive, can just take lid off?
 
 ## Sound Blaster Play! 4
 
