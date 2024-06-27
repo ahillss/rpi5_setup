@@ -97,10 +97,15 @@
 
 * wayfire's autostart only works when installing from `Raspberry Pi OS with desktop and recommended software` and not `Raspberry Pi OS with desktop`
 
+## Moonlight Streaming
+
+* at 1440p 60fps with low to medium fan speed idles around 63 degrees (in winter)
+
+* at 1080p 60 fps, idles at 60 degrees (in winter) with the cooler fans off, can also have the fans running at low speed, which is quiet
+
 ## Good
 
-* 2500mhz is adequate for web browsing, youtube, moonlight streaming at 1080p 60 fps
+* 2500mhz is adequate for web browsing, youtube, moonlight streaming at 1080p/2k 60 fps
 
 * 8gb is also adequate
 
-* when running moonlight, idles at 60 degrees with the cooler fans off, can also have the fans running at low speed, which is quiet
