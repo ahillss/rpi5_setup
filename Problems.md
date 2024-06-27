@@ -26,7 +26,9 @@
 
 * four spots on the side of the board where if touched making a weird metal brush sound (instead of the smooth plastic feel you'd expect)
 
-* the ribbon cable will short against metal cases, so you need to place electrical tape between them
+* the ribbon cable (copper coloured one) will short against metal cases, so you need to place electrical tape between them (they are aware of the problem, might have a fix by now)
+
+* no replacement PCIe FFC cable available for sale
 
 ## Geekworm P580 (case)
 
