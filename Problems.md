@@ -80,7 +80,7 @@
 
 * not sure how bad the full covering top hats are for dealing with heat from the pi
 
-* easier access to nvme drive, can just take lid off?
+* easier access to nvme drive, can just take lid off the case?
 
 ## Sound Blaster Play! 4
 
