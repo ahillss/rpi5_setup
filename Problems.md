@@ -66,7 +66,7 @@
 
 ### Patriot P300 (non us version)
 
-* with power savings disabled, idles around 40 degrees
+* with power savings disabled, idles around 40-50 degrees
 
 ## Top hat nvme
 
