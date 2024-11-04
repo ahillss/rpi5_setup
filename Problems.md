@@ -76,7 +76,7 @@
 
 * ribbon cable from the pi doesn't need to bend so much
 
-* the Geekworm x1001 and M901 has a gap for heat and air to pass through from/to the pi
+* the Geekworm x1001, x1015 and M901 has a gap for heat and air to pass through from/to the pi
 
 * not sure how bad the full covering top hats are for dealing with heat from the pi
 

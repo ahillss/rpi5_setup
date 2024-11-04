@@ -120,6 +120,12 @@ full: `pinctrl FAN_PWM op dl`
 
 auto: `pinctrl FAN_PWM a0`
 
+```
+sudo bash -c "echo 'pinctrl FAN_PWM op dh' > /usr/local/bin/fan_off.sh"
+sudo bash -c "echo 'pinctrl FAN_PWM a0' > /usr/local/bin/fan_on.sh"
+sudo chmod +xr /usr/local/bin/fan_off.sh /usr/local/bin/fan_on.sh
+```
+
 ### disable wifi, bluetooth
 
 `sudo nano /boot/firmware/config.txt`
@@ -311,14 +317,14 @@ echo -e '"scrot ~/Pictures/screenshot_$(date +%Y_%m_%d_%H_%M_%S_%3N).png"\nContr
 
 ```
 mkdir -p  $HOME/.config/gtk-2.0 $HOME/.config/gtk-3.0
-mkdir -p $HOME/Desktop $HOME/Documents $HOME/Downloads $HOME/Pictures $HOME/Videos
+mkdir -p $HOME/Desktop $HOME/Documents $HOME/Downloads $HOME/Pictures $HOME/Videos $HOME/Music
 
 #echo '' >> $HOME/.config/gtk-2.0/gtkrc
 echo 'gtk-recent-files-max-age=0\n\ngtk-theme-name="Adwaita-dark"\ngtk-icon-theme-name="PiXflat"\ngtk-cursor-theme-name="Adwaita-dark"\n\ngtk-xft-antialias=1\ngtk-xft-hinting=1\ngtk-xft-hintstyle="hintslight"\ngtk-xft-rgba="rgb"\n\ngtk-font-name="Sans 12"\n' >> $HOME/.gtkrc-2.0
 
 echo -e '[Settings]\n\ngtk-recent-files-max-age=0\ngtk-recent-files-limit=0\n\ngtk-theme-name=Adwaita-dark\ngtk-icon-theme-name=PiXflat\ngtk-cursor-theme-name=Adwaita-dark\n\ngtk-xft-antialias=1\ngtk-xft-hinting=1\ngtk-xft-hintstyle=hintfull\ngtk-xft-rgba=rgb\n\ngtk-font-name=Sans 12' > $HOME/.config/gtk-3.0/settings.ini
 
-echo -e "file://$HOME/Documents Documents\nfile://$HOME/Downloads Downloads\nfile://$HOME/Pictures Pictures\nfile://$HOME/Videos Videos\nfile:///tmp tmp" >> $HOME/.config/gtk-3.0/bookmarks
+echo -e "file://$HOME/Documents Documents\nfile://$HOME/Downloads Downloads\nfile://$HOME/Pictures Pictures\nfile://$HOME/Videos Videos\nfile://$HOME/Music Music\nfile:///tmp tmp" >> $HOME/.config/gtk-3.0/bookmarks
 echo -e '[Filechooser Settings]\nLocationMode=path-bar\nShowHidden=true\nShowSizeColumn=true\nSortColumn=name\nSortOrder=ascending\nStartupMode=recent' > $HOME/.config/gtk-2.0/gtkfilechooser.ini
 ```
 
