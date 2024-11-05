@@ -95,19 +95,19 @@ Set `POWER_OFF_ON_HALT=1`
 Add to end (these are the defaults):
 
 ```
-dtparam=fan_temp0=50000
-dtparam=fan_temp0_hyst=5000
+dtparam=fan_temp0=65000
+dtparam=fan_temp0_hyst=3000
 dtparam=fan_temp0_speed=75
 
-dtparam=fan_temp1=60000
+dtparam=fan_temp1=70000
 dtparam=fan_temp1_hyst=5000
 dtparam=fan_temp1_speed=125
 
-dtparam=fan_temp2=67500
+dtparam=fan_temp2=75000
 dtparam=fan_temp2_hyst=5000
 dtparam=fan_temp2_speed=175
 
-dtparam=fan_temp3=75000
+dtparam=fan_temp3=80000
 dtparam=fan_temp3_hyst=5000
 dtparam=fan_temp3_speed=250
 ```
@@ -320,7 +320,7 @@ mkdir -p  $HOME/.config/gtk-2.0 $HOME/.config/gtk-3.0
 mkdir -p $HOME/Desktop $HOME/Documents $HOME/Downloads $HOME/Pictures $HOME/Videos $HOME/Music
 
 #echo '' >> $HOME/.config/gtk-2.0/gtkrc
-echo 'gtk-recent-files-max-age=0\n\ngtk-theme-name="Adwaita-dark"\ngtk-icon-theme-name="PiXflat"\ngtk-cursor-theme-name="Adwaita-dark"\n\ngtk-xft-antialias=1\ngtk-xft-hinting=1\ngtk-xft-hintstyle="hintslight"\ngtk-xft-rgba="rgb"\n\ngtk-font-name="Sans 12"\n' >> $HOME/.gtkrc-2.0
+echo -e  'gtk-recent-files-max-age=0\n\ngtk-theme-name="Adwaita-dark"\ngtk-icon-theme-name="PiXflat"\ngtk-cursor-theme-name="Adwaita-dark"\n\ngtk-xft-antialias=1\ngtk-xft-hinting=1\ngtk-xft-hintstyle="hintslight"\ngtk-xft-rgba="rgb"\n\ngtk-font-name="Sans 12"\n' >> $HOME/.gtkrc-2.0
 
 echo -e '[Settings]\n\ngtk-recent-files-max-age=0\ngtk-recent-files-limit=0\n\ngtk-theme-name=Adwaita-dark\ngtk-icon-theme-name=PiXflat\ngtk-cursor-theme-name=Adwaita-dark\n\ngtk-xft-antialias=1\ngtk-xft-hinting=1\ngtk-xft-hintstyle=hintfull\ngtk-xft-rgba=rgb\n\ngtk-font-name=Sans 12' > $HOME/.config/gtk-3.0/settings.ini
 
@@ -332,7 +332,7 @@ echo -e '[Filechooser Settings]\nLocationMode=path-bar\nShowHidden=true\nShowSiz
 
 ```
 mkdir -p $HOME/.config/viewnior
-echo -e '[prefs]\nzoom-mode=3\nfit-on-fullscreen=true\nshow-hidden=true\nsmooth-images=true\nconfirm-delete=true\nreload-on-save=true\nshow-menu-bar=false\nshow-toolbar=true\nstart-maximized=false\nslideshow-timeout=5\nauto-resize=false\nbehavior-wheel=2\nbehavior-click=0\nbehavior-modify=2\njpeg-quality=100\npng-compression=9\ndesktop=1\n' > $HOME/.config/viewnior/viewnior.conf
+echo -e '[prefs]\nzoom-mode=3\nfit-on-fullscreen=true\nshow-hidden=true\nsmooth-images=true\nconfirm-delete=false\nreload-on-save=true\nshow-menu-bar=false\nshow-toolbar=true\nstart-maximized=false\nslideshow-timeout=5\nauto-resize=false\nbehavior-wheel=2\nbehavior-click=0\nbehavior-modify=2\njpeg-quality=100\npng-compression=9\ndesktop=1\n' > $HOME/.config/viewnior/viewnior.conf
 ```
 
 ### thunar
