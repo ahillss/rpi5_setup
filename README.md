@@ -9,7 +9,7 @@ Never run `sudo rpi-update`.
 ```
 sudo apt update
 sudo apt full-upgrade
-sudo apt install thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter blueman gparted pavucontrol transmission-remote-gtk
+sudo apt install thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman scite terminator vlc xbindkeys solaar viewnior tigervnc-viewer i3-wm i3blocks dmenu unclutter blueman gparted pavucontrol transmission-remote-gtk xscreensaver
 ```
 
 ### adding additional partitions
