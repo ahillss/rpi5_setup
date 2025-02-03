@@ -96,8 +96,8 @@ Add to end (these are the defaults):
 
 ```
 dtparam=fan_temp0=65000
-dtparam=fan_temp0_hyst=3000
-dtparam=fan_temp0_speed=75
+dtparam=fan_temp0_hyst=10000
+dtparam=fan_temp0_speed=105
 
 dtparam=fan_temp1=70000
 dtparam=fan_temp1_hyst=5000
@@ -105,11 +105,13 @@ dtparam=fan_temp1_speed=125
 
 dtparam=fan_temp2=75000
 dtparam=fan_temp2_hyst=5000
-dtparam=fan_temp2_speed=175
+dtparam=fan_temp2_speed=150
 
 dtparam=fan_temp3=80000
 dtparam=fan_temp3_hyst=5000
 dtparam=fan_temp3_speed=250
+
+
 ```
 
 ### manually control fan
