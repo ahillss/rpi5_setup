@@ -215,6 +215,10 @@ sudo systemctl disable nvmefc-boot-connections.service
 
 `sudo fstrim -v -a`
 
+### fix nvme not booting
+
+If it mountable while booting from the sd card, then mount the nvme's boot partition, and modify `cmdline.txt` and `config.txt` with fixes below.
+
 ### fix nvme disconnecting
 
 #### disable power management
