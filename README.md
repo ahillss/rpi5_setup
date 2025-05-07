@@ -47,7 +47,9 @@ sudo mv ./root/home ./root/home2
 sudo mkdir -p ./root/var ./root/tmp ./root/home
 ```
 
-6. Call `sudo nano ./root/etc/fstab` and insert:
+6. Get part uuid from `sudo blkid`
+
+7. Call `sudo nano ./root/etc/fstab` and insert:
 
 ```
 PARTUUID=YOUR_PART_UUID-03  /var    ext4    defaults,noatime    0 2
@@ -59,7 +61,7 @@ tmpfs /var/tmp tmpfs nodev,nosuid,mode=1777 0 0
 tmpfs /home/YOUR_USER_NAME/.cache tmpfs nodev,nosuid,mode=1777 0 0
 ```
 
-7. Optionally add sd card mnts
+8. Optionally add sd card mnts
 ```
 sudo mkdir -p ./root/mnt/other_boot ./root/mnt/other_root
 ```
